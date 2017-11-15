@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\feedcommon\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\simple_ats_cpp\include;..\..\simple_ats_cpp\gen-cpp;..\..\ats\include;$(WORKDIR2)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\cryptopp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\feedcommon\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\simple_ats_cpp\include;..\..\simple_ats_cpp\gen-cpp;..\..\ats\include;$(MYATSDIR)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\cryptopp</AdditionalIncludeDirectories>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <BrowseInformation>true</BrowseInformation>
@@ -72,7 +72,7 @@
     </Bscmake>
     <Lib>
       <AdditionalDependencies>terra.zmq.lib;libthrift.lib;libthriftnb.lib;libeay32.lib;libevent.lib;ssleay32.lib;libevent_core.lib;libevent_extras.lib;cryptlib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\terra\zmq404\lib\vc90_$(Configuration);$(WORKDIR2)\terra\thrift_include\lib\windows_$(Configuration);$(WORKDIR2)\terra\cryptopp\cryptopp\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\terra\zmq404\lib\vc90_$(Configuration);$(MYATSDIR)\terra\thrift_include\lib\windows_$(Configuration);$(MYATSDIR)\terra\cryptopp\cryptopp\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,7 +81,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\feedcommon\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\simple_ats_cpp\include;..\..\simple_ats_cpp\gen-cpp;..\..\ats\include;$(WORKDIR2)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\cryptopp</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\feedcommon\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\simple_ats_cpp\include;..\..\simple_ats_cpp\gen-cpp;..\..\ats\include;$(MYATSDIR)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\cryptopp</AdditionalIncludeDirectories>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -96,7 +96,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>terra.zmq.lib;libthrift.lib;libthriftnb.lib;libeay32.lib;libevent.lib;ssleay32.lib;libevent_core.lib;libevent_extras.lib;cryptlib.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\terra\zmq404\lib\vc90_$(Configuration);$(WORKDIR2)\terra\thrift_include\lib\windows_$(Configuration);$(WORKDIR2)\terra\cryptopp\cryptopp\lib\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\terra\zmq404\lib\vc90_$(Configuration);$(MYATSDIR)\terra\thrift_include\lib\windows_$(Configuration);$(MYATSDIR)\terra\cryptopp\cryptopp\lib\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

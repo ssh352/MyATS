@@ -65,7 +65,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_LIB_DIAGNOSTIC</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -80,8 +80,8 @@
       <PreserveSbr>true</PreserveSbr>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>DFITCTraderApi.lib;DFITCMdApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\feed\xspeed2\api\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DFITCMdApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\feed\xspeed2\api\lib\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -89,7 +89,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -100,10 +100,10 @@
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>DFITCTraderApi.lib;DFITCMdApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>DFITCMdApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\feed\xspeed2\api\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\feed\xspeed2\api\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

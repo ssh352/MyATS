@@ -58,7 +58,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\common\include;$(WORKDIR2)\terra\feedcommon\include;..\api\include;..\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\feedcommon\include;..\api\include;..\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
@@ -95,7 +95,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>
       </SDLCheck>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\common\include;$(WORKDIR2)\terra\feedcommon\include;..\api\include;..\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\feedcommon\include;..\api\include;..\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>

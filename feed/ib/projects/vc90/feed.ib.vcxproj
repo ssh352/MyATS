@@ -56,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\..\..\terra\common\include;..\..\include;..\..\..\..\terra\feedcommon\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\feed\TwsSocketClient\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\..\..\terra\common\include;..\..\include;..\..\..\..\terra\feedcommon\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\feed\TwsSocketClient\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -67,7 +67,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>TwsSocketClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\feed\TwsSocketClient\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\feed\TwsSocketClient\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -77,7 +77,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\..\..\terra\common\include;..\..\include;..\..\..\..\terra\feedcommon\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\feed\TwsSocketClient\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\..\..\terra\common\include;..\..\include;..\..\..\..\terra\feedcommon\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\feed\TwsSocketClient\</AdditionalIncludeDirectories>
       <BufferSecurityCheck>true</BufferSecurityCheck>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
@@ -97,7 +97,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>TwsSocketClient.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\feed\TwsSocketClient\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\feed\TwsSocketClient\$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\terra\instruments\include;..\..\terra\marketaccess\include;..\..\terra\thrift_include\thrift\src\;..\..\terra\common\include;..\..\terra\feedcommon\include;..\..\..\orderpassing;$(WORKDIR2)\terra\zmq404\include;..\..\terra\thrift_include\zlib-1.2.8;..\..\terra\ats\include;$(WORKDIR2)\terra\tbb\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\terra\instruments\include;..\..\terra\marketaccess\include;..\..\terra\thrift_include\thrift\src\;..\..\terra\common\include;..\..\terra\feedcommon\include;..\..\..\orderpassing;$(MYATSDIR)\terra\zmq404\include;..\..\terra\thrift_include\zlib-1.2.8;..\..\terra\ats\include;$(MYATSDIR)\terra\tbb\include</AdditionalIncludeDirectories>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <BrowseInformation>true</BrowseInformation>
@@ -72,7 +72,7 @@
     </Bscmake>
     <Lib>
       <AdditionalDependencies>terra.ats.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\terra\ats\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\terra\ats\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -81,7 +81,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\terra\instruments\include;..\..\terra\marketaccess\include;..\..\terra\thrift_include\thrift\src\;..\..\terra\common\include;..\..\terra\feedcommon\include;..\..\..\orderpassing;$(WORKDIR2)\terra\zmq404\include;..\..\terra\thrift_include\zlib-1.2.8;..\..\terra\ats\include;$(WORKDIR2)\terra\tbb\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\terra\instruments\include;..\..\terra\marketaccess\include;..\..\terra\thrift_include\thrift\src\;..\..\terra\common\include;..\..\terra\feedcommon\include;..\..\..\orderpassing;$(MYATSDIR)\terra\zmq404\include;..\..\terra\thrift_include\zlib-1.2.8;..\..\terra\ats\include;$(MYATSDIR)\terra\tbb\include</AdditionalIncludeDirectories>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -96,7 +96,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>terra.ats.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\terra\ats\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\terra\ats\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

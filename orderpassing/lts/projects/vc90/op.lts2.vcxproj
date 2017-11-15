@@ -54,7 +54,7 @@
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <Optimization>
       </Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\lts\include;$(WORKDIR2)\orderpassing\lts\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\lts\include;$(MYATSDIR)\orderpassing\lts\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <BrowseInformation>true</BrowseInformation>
@@ -76,7 +76,7 @@
       <AdditionalDependencies>securitymduserapi.lib;LTSSecWrapper.lib;securitytraderapi.lib;securityqueryapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\lts\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\lts\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -85,7 +85,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\lts\include;$(WORKDIR2)\orderpassing\lts\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\lts\include;$(MYATSDIR)\orderpassing\lts\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>
       </AdditionalUsingDirectories>
       <Optimization>MaxSpeed</Optimization>
@@ -103,7 +103,7 @@
       <AdditionalDependencies>securitymduserapi.lib;LTSSecWrapper.lib;securitytraderapi.lib;securityqueryapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\lts\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\lts\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

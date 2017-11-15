@@ -66,7 +66,7 @@
     <ClCompile>
       <Optimization>
       </Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\zd\include;$(WORKDIR2)\orderpassing\zd\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\zd\include;$(MYATSDIR)\orderpassing\zd\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -78,7 +78,7 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Lib>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\zd\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\zd\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ShZdFutureTradeApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
     <Bscmake>
@@ -90,7 +90,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\zd\include;$(WORKDIR2)\orderpassing\zd\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\zd\include;$(MYATSDIR)\orderpassing\zd\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -102,7 +102,7 @@
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Lib>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\zd\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\zd\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>ShZdFutureTradeApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>

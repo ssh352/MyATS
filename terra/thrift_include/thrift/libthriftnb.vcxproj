@@ -181,7 +181,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>HAVE_CONFIG_H=1;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ProgramDataBaseFileName>$(IntDir)libthriftnb.pdb</ProgramDataBaseFileName>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\thrift_include\include;$(WORKDIR2)\terra\thrift_include\libevent_inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\thrift_include\include;$(MYATSDIR)\terra\thrift_include\libevent_inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>

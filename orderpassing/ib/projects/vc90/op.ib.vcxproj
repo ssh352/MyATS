@@ -56,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\ib\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\feed\TwsSocketClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\ib\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\feed\TwsSocketClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MinimalRebuild>false</MinimalRebuild>
       <BrowseInformation>true</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -82,7 +82,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>OldStyle</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\ib\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\feed\TwsSocketClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\ib\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\feed\TwsSocketClient\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>

@@ -54,7 +54,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>
       </Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\xspeed\include;$(WORKDIR2)\orderpassing\xspeed\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\xspeed\include;$(MYATSDIR)\orderpassing\xspeed\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <BrowseInformation>true</BrowseInformation>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -67,7 +67,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>DFITCSECTraderApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\xspeed\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\xspeed\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
     <Bscmake>
       <PreserveSbr>true</PreserveSbr>
@@ -79,7 +79,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\xspeed\include;$(WORKDIR2)\orderpassing\xspeed\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\xspeed\include;$(MYATSDIR)\orderpassing\xspeed\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <BufferSecurityCheck>false</BufferSecurityCheck>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -93,7 +93,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>DFITCSECTraderApi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\xspeed\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\xspeed\api\lib\windows;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

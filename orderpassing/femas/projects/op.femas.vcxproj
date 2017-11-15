@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\femas\include;$(WORKDIR2)\orderpassing\femas\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\femas\include;$(MYATSDIR)\orderpassing\femas\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -61,7 +61,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>USTPtraderapiAF.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\femas\api\lib\windows;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\femas\api\lib\windows;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -70,7 +70,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(WORKDIR2)\terra\marketaccess\include;$(WORKDIR2)\orderpassing\femas\include;$(WORKDIR2)\orderpassing\femas\api\include;$(WORKDIR2)\terra\instruments\include;$(WORKDIR2)\terra\thrift_include\thrift\src\;$(WORKDIR2)\terra\common/include;$(WORKDIR2)\terra\zmq404\include;$(WORKDIR2)\terra\thrift_include\zlib-1.2.8;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\marketaccess\include;$(MYATSDIR)\orderpassing\femas\include;$(MYATSDIR)\orderpassing\femas\api\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\common/include;$(MYATSDIR)\terra\zmq404\include;$(MYATSDIR)\terra\thrift_include\zlib-1.2.8;$(MYATSDIR)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <TargetMachine>MachineX86</TargetMachine>
@@ -81,7 +81,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>USTPtraderapiAF.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(WORKDIR2)\orderpassing\femas\api\lib\windows;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(MYATSDIR)\orderpassing\femas\api\lib\windows;</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

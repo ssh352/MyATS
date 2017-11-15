@@ -63,7 +63,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -81,7 +81,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;$(WORKDIR2)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
