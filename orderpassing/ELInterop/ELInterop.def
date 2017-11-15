@@ -1,0 +1,11 @@
+LIBRARY
+EXPORTS
+	ELInteropRegisterHost			@1
+    ELInteropUnregisterHost			@2
+	ELInteropSendOrder				@3
+	ELInteropQueryOrderState		@4
+	ELInteropCancelOrder			@5
+	ELInteropSetResult				@6	
+	ELInteropRegisterMsgCallback	@7
+	ELInteropUnregisterMsgCallback	@8
+	ELInteropQueryPosition      	@9

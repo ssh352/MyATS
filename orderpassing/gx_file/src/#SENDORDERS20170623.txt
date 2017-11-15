@@ -1,0 +1,808 @@
+using guosen;
+using elsystem;
+using elsystem.collections;
+using elsystem.windows.forms;
+using tsdata.common;
+using tsdata.marketdata;
+using elsystem.io;
+
+vars:
+AccountsProvider AP(null),
+OrdersProvider OP(null),
+PositionsProvider PP(null),
+QuotesProvider QP(null)
+;
+
+vars:
+OpenFileDialog opendig(null)
+;
+
+vars:
+Timer tim_scan(null),
+Timer tim_order(null),
+Timer tim_delete(null);
+
+vars:
+Dictionary dict_Orders(null), //save the sent orders
+Dictionary dict_cancel(null) //save the cancel orders
+;
+vars:
+string AccountInfoPath(""),
+string PositionInfoPath(""),
+string OrderInfoPath(""),
+string MatchInfoPath(""),
+string LogPath(""),
+string Path("");
+
+method void AnalysisTechnique_Initialized( elsystem.Object sender, elsystem.InitializedEventArgs args ) 
+begin
+	AccountInfoPath = "C:\Account.CSV";
+	PositionInfoPath = "C:\Position.CSV";
+	OrderInfoPath = "C:\Order.CSV";
+	MatchInfoPath = "C:\Match.CSV";
+	LogPath ="C:\Log"+DateTime.Now.Format("%Y-%m-%d")+".csv";
+		
+	OP = new OrdersProvider;
+	//OP.StateChanged += OP_StateChanged;
+	OP.Updated += OP_Updated;
+	OP.Realtime = True;
+	OP.Load = True;
+	
+	PP = new PositionsProvider;
+	PP.Realtime = True;
+	PP.StateChanged += PP_StateChanged;
+	PP.Load = TRUE;
+	
+	AP = new AccountsProvider;
+	AP.Realtime = True;
+	AP.StateChanged += AP_StateChanged;
+	AP.Updated += AP_Updated;
+	AP.Load = true;
+		
+	tim_scan = new Timer;
+	tim_scan.Enable = false;
+	tim_scan.Interval = 100000;
+	tim_scan.Elapsed += tim_scan_Elapsed;
+	
+	tim_order = new Timer;
+	tim_order.Enable = false;
+	tim_order.Interval = 100000;
+	tim_order.Elapsed += tim_order_Elapsed;
+		
+	tim_delete = new Timer;
+	tim_delete.Enable = false;
+	tim_delete.Interval = 100;
+	tim_delete.Elapsed += tim_delete_Elapsed;
+	
+	dict_Orders = new Dictionary;
+	dict_cancel = new Dictionary;
+	
+	sendOrderForm.Show();
+end;
+
+method void tim_scan_Elapsed(elsystem.Object sender,elsystem.TimerElapsedEventArgs args)
+Begin
+	if(readOrders(tb_path.Text.ToString()))then
+	Begin
+		try
+			Filedelete(tb_path.Text.ToString());
+		catch(elsystem.Exception ex)
+			tim_scan.Enable = false;
+			tim_delete.Enable = true;
+			logg("【ERROR】Delete File exception occured.",ex.Message,ex.StackTrace);
+		End;
+	End
+	Else
+	Begin
+		logg("[ReadOrder][FALSE]");	
+	End;
+End;
+
+method void tim_delete_Elapsed(elsystem.Object sender,elsystem.TimerElapsedEventArgs args)
+Begin
+	try
+		Filedelete(tb_path.Text.ToString());
+		tim_scan.Enable = true;
+		tim_delete.Enable = false;
+	catch(elsystem.Exception ex)
+		logg("[Delete][ERROR]",ex.Message,ex.StackTrace);
+	End;
+End;
+
+method void tim_order_Elapsed(elsystem.Object sender,elsystem.TimerElapsedEventArgs args)
+vars:int loop,string temp,string orderName,string mathStr;
+Begin
+    
+				
+			
+	//Write Account Cash Infor to file
+	if(Ap.State = DataState.loaded) then
+	Begin
+		temp = "Account,Asset"+ newline;
+		for loop = 0 to AP.Count-1
+		Begin
+			//if(AP[loop].AccountID.Equals(cb_account.Text))then
+			//Begin
+			temp = temp + AP[loop].AccountID + "," + numtostr(AP[loop].RTDayTradingBuyingPower,2) + newline ;
+			//End;
+		End;
+		writeStr(AccountInfoPath,temp,false);
+	End
+	Else
+	Begin
+		logg("AP is not loaded with state: "+ AP.State.ToString());
+	End;
+	
+	//Write Positions Infor to file
+	if(PP.State = DataState.loaded)then
+	Begin
+		temp = "Account,Stock,Quantity,QuantityAvailable"+ newline;
+		for loop = 0 to PP.Count-1
+		Begin
+			temp = temp + PP[loop].AccountID.ToString() + "," + PP[loop].Symbol+ "," + numtostr(PP[loop].Quantity,0)+","+numtostr(PP[loop].QuantityAvailable,0) + newline ;
+		End;
+		writeStr(PositionInfoPath,temp,false);
+	End;
+	
+	//Write Order Infor to file
+	if(OP.State = DataState.loaded)then
+	Begin
+		temp = "OrderDate,OrderTime,FilledDate,FilledTime,OrderID,Stock,buy/sell,OrderType,OrderPrice,OrderNumber,EnterNumber,NodealNumber,MatchPrice,OrderStatue,Market,Account"+ newline;;
+		mathStr = "";
+		//for loop = 0 to OP.Count-1
+		for loop = OP.Count-1 downto 0
+		Begin
+			orderName = "";
+			Try
+				orderName = OP[loop].ExtendedProperties["OrderName"].ToString();
+			Catch(elsystem.Exception ex)
+			End;
+			if(orderName = "")then
+			Begin
+				Continue;
+			End
+			Else
+			Begin
+				temp = temp + OP[loop].EnteredTime.Format("%Y-%m-%d")+","
+				            + OP[loop].EnteredTime.Format("%H:%M:%S")+","
+				            + OP[loop].FilledTime.Format("%Y-%m-%d")+","
+				            + OP[loop].FilledTime.Format("%H:%M:%S")+","
+				            + OrderName.ToString()+","
+				            +OP[loop].Symbol+","
+				            +OP[loop].Action.ToString()+","
+				            +OP[loop].Type.ToString()+","
+				            +OP[loop].LimitPrice.ToString()+","
+				            +numtostr(OP[loop].EnteredQuantity,0)+","
+				            +numtostr(OP[loop].FilledQuantity,0)+","
+				            +numtostr((OP[loop].EnteredQuantity-OP[loop].FilledQuantity),0)+","
+				            +OP[loop].AvgFilledPrice.ToString()+","
+				            +OP[loop].State.ToString()+","
+				            +OP[loop].Symbol.Substring(OP[loop].Symbol.Length-2,2)+","
+				            +OP[loop].AccountID.ToString()+newline ;
+				            
+				//join math info into files
+				if(OP[loop].State= OrderState.Filled or OP[loop].State= OrderState.PartiallyFilledUROut or OP[loop].State= OrderState.PartiallyFilled)then
+				Begin
+					mathStr = mathStr + OrderToString(OP[loop]);
+				End;
+				
+			End;
+		End;
+		writeStr(OrderInfoPath,temp,false);
+		writeStr(MatchInfoPath,mathStr,false);//write math info into files
+	End;
+	
+	
+End;
+
+
+method void bt_open_Click( elsystem.Object sender, elsystem.EventArgs args ) 
+begin
+	opendig = new OpenFileDialog;
+	//opendig filter file extension
+	opendig.Filter ="txt files (*.txt)|*.txt|Comma-Separated Values(*.csv)|*.csv|All Files (*.*)|*.*" ;//  "excel files (*.xls)" ;  //|(*.xlsx)|(*.xlsm)
+	//opendig StatusChanged event
+	opendig.StatusChanged += opendig_StatusChanged;
+	//show the file select windows
+	opendig.Show();
+end;
+
+method void opendig_StatusChanged( elsystem.Object sender, elsystem.EventArgs args ) 
+Begin
+	//if the status is OK
+	if(opendig.Status = DialogResult.OK) then
+	Begin
+		//if the file exist
+		if(opendig.CheckFileExists = true) then
+		Begin
+			lb_info.Text=opendig.FileName+"列表文件已选定！"; 
+			tb_path.Text = opendig.FileName;
+			
+		End;//End if the file exist
+	End;//if the status is OK
+End;
+
+
+
+method void bt_start_Click( elsystem.Object sender, elsystem.EventArgs args )
+vars:double scanFile,double scanOrder;
+begin
+	scanFile = strtonum(tb_scanInterval.Text.ToString());
+	scanOrder = strtonum(tb_order.Text.ToString());
+	scanFile = iff(scanFile=0,10,scanFile);
+	scanOrder = iff(scanOrder=0,10,scanOrder);
+	
+	
+	tim_scan.Enable = false;
+	tim_scan.Interval = scanFile*100;	
+	tim_scan.Enable = true;
+	
+	bt_start.Enabled = false;
+	bt_start.BackColor=elsystem.drawing.color.DimGray ;
+	logg("Start to scan the file....",tim_scan.Enable,tim_scan.Interval);
+	
+	
+	tim_order.Enable =false;
+	tim_order.Interval = scanOrder*1000;
+	tim_order.Enable = true;
+	lb_info.Text="开启自动下单及回报反馈!";
+	logg("Start to scan the order....",tim_order.Enable,tim_order.Interval);
+end;
+
+method void bt_stop_Click( elsystem.Object sender, elsystem.EventArgs args ) 
+begin
+	tim_scan.Enable = false;
+	tim_order.Enable = false;
+	logg("Stop to scan the file and Orders....");
+	bt_start.Enabled = true;
+	bt_start.BackColor=elsystem.drawing.color.Gainsboro; 
+	lb_info.Text="停止自动下单及回报反馈!";
+end;
+
+Method bool readOrders(string filepath)
+vars:streamReader sr,Vector vec_line,Vector vec_temp,string line_temp,Order ord,int loop;
+Begin
+	vec_line = new Vector;
+	vec_temp = new Vector;
+	Try
+		sr = streamReader.Create(filepath);
+		while(true)
+		Begin
+			line_temp = sr.ReadLine();
+			logg("Read one line from "+filePath," "+line_temp,"Is empty:"+line_temp.Trim().Equals("").ToString());
+			if(line_temp.Trim().Equals(""))then
+			Begin
+				break;
+			End;
+			vec_line.push_back(line_temp);
+		End;
+		if(vec_line[vec_line.Count-1].ToString().ToUpper().Equals("END"))then
+		Begin
+			for loop = 0 to vec_line.Count-1
+			Begin
+				vec_temp.clear();
+				vec_temp = vec_line[loop].ToString().Split(",");
+				ord = sendOrder(vec_temp); 
+			End;
+			Return true;
+		End;
+	catch(elsystem.Exception ex)
+		logg("Exception occured.",ex.Message,filepath);
+	End;
+	Return false;
+End;
+
+//return order if the command is vaild, return null if the command is invaild, retrun the previous order if it's cancel
+Method Order sendOrder(Vector vec_temp)
+vars:OrderTicket otk,Order ord;
+Begin
+	otk = new OrderTicket;
+	ord = null;
+	if(vec_temp = null)then
+	Begin
+		logg("vec_temp is null.");
+		return null;
+	End;
+	if( vec_temp.Count <> 3 and vec_temp.Count <>6 and vec_temp.Count<>7 )then
+	Begin
+		logg("vec_temp count is ",numtostr(vec_temp.Count,0),"not 3/6/7.");
+		return null;
+	End;
+	if(vec_temp.Count = 3 )then
+	Begin
+		print(vec_temp[1].ToString().Equals("CANCEL"));
+		if(vec_temp[1].ToString().Equals("CANCEL"))then
+		Begin
+			
+			ord = getOrderByname(vec_temp[2].ToString());
+			ord.Cancel();
+			logg("对"+vec_temp[2].ToString()+"撤单已发出。");
+		End;
+		{
+		print(vec_temp[0].ToString()<>"",dict_cancel.Contains(vec_temp[0].ToString()) );
+		//Cancel order
+		if(vec_temp[0].ToString()<>"" and dict_cancel.Contains(vec_temp[0].ToString()))then
+    	Begin
+    		logg("OrderName read from txt is empty or it's in cancel dict already:",vec_temp[0].ToString(),dict_cancel.Contains(vec_temp[0].ToString()));
+    	End
+    	Else
+    	Begin
+    		dict_cancel.Add(ord.ExtendedProperties["OrderName"].ToString(),ord);
+    		logg("Add order to dictionary,OrderName:",ord.ExtendedProperties["OrderName"].ToString(),"dict_cancel.Count:"+numtostr(dict_Orders.Count,0));
+    	End;
+    	}
+	End;
+	if(vec_temp.Count = 6 )then
+	Begin 
+		//Send Market order
+		otk.Symbol = vec_temp[1].ToString(); 
+    	otk.Quantity = strtonum(vec_temp[2].ToString()); 
+    	otk.BypassClientValidation = True;// bypassClientValidation
+    	otk.Account = cb_account.Text.Trim(); 
+    	if(vec_temp[3].ToString().Equals("BUY"))then
+    	Begin
+    		otk.Action = OrderAction.Buy; 
+    	End
+    	Else
+    	if(vec_temp[3].ToString().Equals("SELL"))then
+    	Begin
+    		otk.Action = OrderAction.Sell; 
+    	End
+    	Else
+    	Begin
+    		logg("Unknow Market order Action with value  ",vec_temp[3].ToString());
+    		return null;
+    	End;
+    	otk.SymbolType = tsdata.common.SecurityType.Stock; 
+    	otk.Type = tsdata.trading.OrderType.Market;//market 
+    	otk.Duration="AUT";//auto duration 
+    	otk.ExtendedProperties.SetItem("OrderName", vec_temp[0].ToString());//自定义的OrderName 
+    	ord = otk.Send();//发送委托
+    	if(ord.ExtendedProperties["OrderName"].ToString()<>"" and dict_orders.Contains(ord.ExtendedProperties["OrderName"].ToString()))then
+    	Begin
+    		logg("OrderName in sendOrder is empty  or dict_orders contains this OrderName already:",ord.ExtendedProperties["OrderName"].ToString(),dict_orders.Contains(ord.ExtendedProperties["OrderName"].ToString()));
+    	End
+    	Else
+    	Begin
+    		dict_Orders.Add(ord.ExtendedProperties["OrderName"].ToString(),ord);
+    		logg("Add order to dictionary,OrderName:",ord.ExtendedProperties["OrderName"].ToString(),"dict_Orders.Count:"+numtostr(dict_Orders.Count,0));
+    	End;
+    	
+    	Return ord;
+	End;
+	if(vec_temp.Count = 7 )then
+	Begin
+		//Send Limit order
+		//Send Market order
+		otk.Symbol = vec_temp[1].ToString(); 
+    	otk.Quantity = strtonum(vec_temp[2].ToString()); 
+    	otk.BypassClientValidation = True;// bypassClientValidation
+    	otk.Account = cb_account.Text.Trim(); 
+    	if(vec_temp[3].ToString().Equals("BUY"))then
+    	Begin
+    		otk.Action = OrderAction.Buy; 
+    	End
+    	Else
+    	if(vec_temp[3].ToString().Equals("SELL"))then
+    	Begin
+    		otk.Action = OrderAction.Sell; 
+    	End
+    	Else
+    	Begin
+    		logg("Unknow Limit order Action with value  ",vec_temp[3].ToString());
+    		return null;
+    	End;
+    	otk.SymbolType = tsdata.common.SecurityType.Stock; 
+    	otk.Type = tsdata.trading.OrderType.Limit;//limit
+    	otk.LimitPrice = strtonum(vec_temp[6].ToString());
+    	otk.Duration="AUT";//auto duration 
+    	otk.ExtendedProperties.SetItem("OrderName", vec_temp[0].ToString());//自定义的OrderName 
+    	ord = otk.Send();//发送委托
+    	if(ord.ExtendedProperties["OrderName"].ToString()<>"" and dict_orders.Contains(ord.ExtendedProperties["OrderName"].ToString()))then
+    	Begin
+    		logg("OrderName in sendOrder is empty  or dict_orders contains this OrderName already:",ord.ExtendedProperties["OrderName"].ToString(),dict_orders.Contains(ord.ExtendedProperties["OrderName"].ToString()));
+    	End
+    	Else
+    	Begin
+    		dict_Orders.Add(ord.ExtendedProperties["OrderName"].ToString(),ord);
+    		logg("Add order to dictionary,OrderName:",ord.ExtendedProperties["OrderName"].ToString(),"dict_Orders.Count:"+numtostr(dict_Orders.Count,0));
+    	End;
+    	Return ord;
+	End;
+	Return ord;
+End;
+
+Method Order getOrderByName(string name)
+vars:int loop,string ordName;
+Begin
+	if(OP.State = DataState.loaded)then
+	Begin
+		For loop = 0 to OP.Count-1
+		Begin
+			ordName = "";
+			Try
+				ordName = OP[loop].ExtendedProperties["OrderName"].ToString();
+			Catch(elsystem.Exception ex)
+			End;
+			if(ordName="")then
+			Begin
+				logg("getOrderByName func get empty orderName while searching for ",name,". Current OrderNmae is empty.OrderInfor:"+OrderToString(OP[loop]));
+			End;
+			if(ordName=name)then
+			Begin
+				logg("getOrderByName func find the OrderName ",name,". Current OrderInfor:"+OrderToString(OP[loop]));
+				Return OP[loop];
+			End;
+		End;//End for
+	End
+	Else
+	Begin
+		logg("getOrderByName func OP state is not OK. State:",OP.State.ToString());
+	End;
+	Return null;
+End;
+
+Method void AP_StateChanged(elsystem.Object sender,tsdata.common.StateChangedEventArgs args)
+Begin
+	refreshAccount();
+	
+End;
+
+Method void AP_Updated(elsystem.Object sender,guosen.AccountUpdatedEventArgs args)
+Begin
+	//refreshAccount();
+End;
+{
+Method void OP_StateChanged(elsystem.Object sender,tsdata.common.StateChangedEventArgs args)
+Begin
+	
+End;
+}
+Method void OP_Updated(elsystem.Object sender,guosen.OrderUpdatedEventArgs args)
+vars:Order ord,string ordName,int loop,string tempName;
+Begin
+	if(args.Order=null)then
+	Begin
+		logg("OP_Updated Event:args.Order is NULL.",args.Message,args.Reason.ToString());
+		for loop = 0 to OP.Count-1
+		Begin
+			tempName = "";
+			try
+				tempName = OP[loop].ExtendedProperties["OrderName"].ToString();
+			catch(elsystem.Exception ex)
+			End; 
+			if(tempName<>"")then
+			Begin
+				logg("OP_Updated Event:args.Order is NULL.",args.Message,args.Reason.ToString()+" adding orders to row.Index:"+numtostr(loop,0)+OrderToString(OP[loop]));
+				addorUpdateRow(OP[loop]);
+			End
+			Else
+				logg("OP_Updated Event:args.Order is NULL and OrderName is empty.",args.Message,args.Reason.ToString()+" .Index:"+numtostr(loop,0)+OrderToString(OP[loop]));	
+		End;
+		return;
+	End;
+	ord = args.Order; //Find the Order whcih invoked this event
+	ordName = ord.ExtendedProperties["OrderName"].ToString();
+	if(ordName.Trim() = "")then
+	Begin
+		logg("OP_Updated Event:OrderName is empty."+ordertostring(args.Order),args.Message.ToString(),args.Reason.ToString());
+		return;
+	End;
+	addorUpdateRow(args.Order);
+	{
+	if(args.Order<>null and args.Order.FilledQuantity>0 and args.Reason <> guosen.OrderUpdateReason.initialupdate and ordName.Trim() <> "" )then
+	Begin
+		if(args.Order.State= OrderState.Filled or args.Order.State= OrderState.PartiallyFilledUROut or args.Order.State= OrderState.PartiallyFilled)then
+		Begin
+			writeStr(MatchInfoPath,ordertostring(args.Order),true);
+		End;
+	End;
+	}
+End;
+
+Method void addorUpdateRow(Order ord)
+vars:int loop,bool hasRow;
+Begin
+	hasRow = false;
+	For loop = 0 to dg_order.Rows.Count
+	Begin
+		if(ord.ExtendedProperties["OrderName"].ToString().Equals(dg_order.Rows[loop].Cells[2].Value.ToString()))then
+		Begin
+			logg("addorUpdateRow Method, already has the same OrderName in Row:",ord.ExtendedProperties["OrderName"].ToString()," Updating this row.");
+			updateRow(loop,ord);
+			hasRow = true;
+		End;
+	End;
+	if(hasRow = false)then
+	Begin
+		logg("addorUpdateRow Method, no row with OrderName:",ord.ExtendedProperties["OrderName"].ToString()," in OrdersRow. Adding...");
+		AddRow(ord);
+	End; 
+End;
+
+Method void AddRow(Order ord)
+vars:DataGridViewRow newRow;
+Begin
+	newrow = DataGridViewRow.Create("");
+	newrow.Resizable = DataGridViewTriState.False;
+	dg_order.Rows.Insert(0,newRow);
+	newrow.Cells[0].Value = ord.EnteredTime.ToString();
+	newrow.Cells[1].Value = ord.FilledTime.ToString();
+	newrow.Cells[2].Value = ord.ExtendedProperties["OrderName"].ToString();
+	newrow.Cells[3].Value = ord.Symbol.ToString();
+	newrow.Cells[4].Value = OrderActionParse(ord.Action);
+	newrow.Cells[5].Value = numtostr(ord.EnteredQuantity,0);
+	newrow.Cells[6].Value = numtostr(ord.FilledQuantity,0);
+	newrow.Cells[7].Value = numtostr(ord.EnteredQuantity - ord.FilledQuantity,0);;
+	newrow.Cells[8].Value = numtostr(ord.AvgFilledPrice,2);
+	newrow.Cells[9].Value = OrderStateParse(ord.State);
+	newrow.Cells[10].Value = ord.AccountID;	
+End;
+
+
+Method void UpdateRow(int rowIndx,Order ord)
+Begin
+	dg_order.Rows[rowIndx].Cells[0].Value = ord.EnteredTime.ToString();
+	dg_order.Rows[rowIndx].Cells[1].Value = ord.FilledTime.ToString();
+	dg_order.Rows[rowIndx].Cells[2].Value = ord.ExtendedProperties["OrderName"].ToString();
+	dg_order.Rows[rowIndx].Cells[3].Value = ord.Symbol.ToString();
+	dg_order.Rows[rowIndx].Cells[4].Value = OrderActionParse(ord.Action);
+	dg_order.Rows[rowIndx].Cells[5].Value = numtostr(ord.EnteredQuantity,0);
+	dg_order.Rows[rowIndx].Cells[6].Value = numtostr(ord.FilledQuantity,0);
+	dg_order.Rows[rowIndx].Cells[7].Value = numtostr(ord.EnteredQuantity - ord.FilledQuantity,0);;
+	dg_order.Rows[rowIndx].Cells[8].Value = numtostr(ord.AvgFilledPrice,2);
+	dg_order.Rows[rowIndx].Cells[9].Value = OrderStateParse(ord.State);
+	dg_order.Rows[rowIndx].Cells[10].Value = ord.AccountID;	
+End;
+
+
+
+
+Method void PP_StateChanged(elsystem.Object sender,tsdata.common.StateChangedEventArgs args)
+Begin
+	
+End;
+
+Method void refreshAccount()
+vars:string oldAccount,int loop;
+Begin
+	if(AP.State <> DataState.loaded)then
+	Begin
+		logg("AP state is not loaded",AP.State.ToString());
+		cb_account.Clear();
+		return;
+	End;//End if the AP
+	OP.Load = false;
+	PP.Load = false;
+	OP.Accounts.Clear();
+	PP.Accounts.Clear();
+	for loop = 0 to AP.Count-1
+	Begin
+		if(AP[loop].Type=tsdata.trading.AccountType.Cash)then
+		Begin
+			OP.Accounts += AP[loop].AccountID;
+			PP.Accounts += AP[loop].AccountID;
+		End;
+	End;
+	OP.Load = true;
+	PP.Load = true; 
+	
+	oldAccount = cb_account.Text.Trim();
+	logg("cb_account old value is: ",oldAccount);
+	cb_account.Clear();
+	for loop = AP.Count-1 downto 0
+	Begin
+		if(AP[loop].Type=tsdata.trading.AccountType.Cash)then
+		Begin
+			if(cb_account.Text.Trim().Equals(""))then
+			Begin
+				cb_account.Text = AP[loop].AccountID;
+			End;
+			cb_account.AddItem(AP[loop].AccountID);
+			if(oldAccount = AP[loop].AccountID)then
+			Begin
+				cb_account.Text = AP[loop].AccountID;
+			End; //End the account is the same as old
+		End;
+		 
+	End;// End for
+End;
+
+//log function, one para
+Method string logg(string infor)
+vars:string str;
+Begin
+	str =  DateTime.Now.ToString()+":"+infor+" .";
+	writeStr(LogPath,str+newline,true);
+	print(str);
+	Return str;
+End;
+
+//log function, two parametres
+Method string logg(string infor,object s1)
+vars:string str;
+Begin
+	str =  DateTime.Now.ToString()+":"+infor+","+s1.ToString() +" .";
+	writeStr(LogPath,str+newline,true);
+	print(str);
+	Return str;
+End;
+
+//log function, two parametres
+Method string logg(string infor,object s1,object s2)
+vars:string str;
+Begin
+	str =  DateTime.Now.ToString()+":"+infor+","+s1.ToString() +" "+s2.ToString();
+	writeStr(LogPath,str+newline,true);
+	print(str);
+	Return str;
+End;
+
+Method void writeStr(string filePath,string str,bool append)
+vars:StreamWriter sw;
+Begin
+	if(append)then
+	Begin
+		Try
+			Fileappend(filePath,str);
+		Catch(Exception ex)
+			logg("【ERROR】FileAppend Error when writeStr:",str," 【To】 "+filePath+ ex.Message +" "+ ex.StackTrace);
+		End;
+	End //If append is TRUE, then append the str to the file
+	Else
+	Begin
+		Try
+			sw = StreamWriter.Create(filePath);
+			sw.Write(str);
+		Catch(elsystem.Exception ex)
+			logg("【ERROR】StreamWriter Error when writeStr:",str," 【To】 "+filePath+ ex.Message +" "+ ex.StackTrace);
+		End;
+	End;
+End;
+
+Method String OrderStateParse(OrderState odState)
+Begin
+	Switch(odState)
+	Begin
+		Case OrderState.Canceled:
+			Return "已取消";
+		Case OrderState.Expired:
+			Return "已过期";
+		Case OrderState.Filled:
+			Return "完全成交";
+		Case OrderState.PartiallyFilled:
+			Return "部分成交";
+		Case OrderState.PartiallyFilledUROut:
+			Return "部成撤单";
+		Case OrderState.Queued:
+			Return "队列中";
+		Case OrderState.Received:
+			Return "已接收";
+		Case OrderState.Rejected:
+			Return "已拒绝";
+		Case OrderState.SendFailed:
+			Return "发送失败";
+		Case OrderState.Sending:
+			Return "发送中";
+		Case OrderState.Unsent:
+			Return "未发送";
+		Default:
+			Return odState.ToString();
+	End;
+End;
+
+Method String OrderTypeParse(tsdata.trading.OrderType odType)
+Begin
+	Switch(odType)
+	Begin
+		Case tsdata.trading.OrderType.Market:
+			Return "市价";
+		Case tsdata.trading.OrderType.Limit:
+			Return "限价";
+		Case tsdata.trading.OrderType.Stoplimit:
+			Return "限价止损";
+		Case tsdata.trading.OrderType.Stopmarket:
+			Return "市价止损";
+		Case tsdata.trading.OrderType.unknown:
+			Return "未知";
+		Default:
+			Return odType.ToString();
+	End;
+End;
+
+Method String OrderActionParse(OrderAction odAction)
+Begin
+	Switch(odAction)
+	Begin
+		Case OrderAction.BorrowToBuy:
+			Return "融资买入";
+		Case OrderAction.BorrowToSell:
+			Return "融券卖出";
+		Case OrderAction.Buy:
+			Return "买入";
+		Case OrderAction.BuyToClose:
+			Return "平空仓";
+		Case OrderAction.BuyToOpen:
+			Return "开多仓";
+		Case OrderAction.BuyToPay:
+			Return "买券还券";
+		Case OrderAction.CollateralBuy:
+			Return "担保品买入";
+		Case OrderAction.CollateralSell:
+			Return "担保品卖出";
+		Case OrderAction.ETFPurchase:
+			Return "ETF申购";
+		Case OrderAction.PayByCash:
+			Return "直接还款";
+		Case OrderAction.PayByStock:
+			Return "直接还券";
+		Case OrderAction.Sell:
+			Return "卖出";
+		Case OrderAction.SellShort:
+			Return "开空仓";
+		Case OrderAction.SellToClose:
+			Return "平多仓";
+		Case OrderAction.SellToOpen:
+			Return "开空仓";
+		Case OrderAction.SellToPay:
+			Return "买券还款";
+		Default:
+			Return odAction.ToString();
+	End;
+End;
+
+//Join the properties of order object to a string
+Method string OrderToString(Order ord)
+vars:string str,Vector vec_tmp,int loop,string sep,string sepChar;
+Begin
+	str = "";
+	sep = ",";
+	sepChar = "";
+	vec_tmp = new Vector;
+	vec_tmp.Push_back( sepChar + ord.AccountID+",");
+	vec_tmp.Push_back( sepChar + ord.Action.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.Duration.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.EnteredQuantity.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.EnteredTime.Format("%Y-%m-%d").ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.EnteredTime.Format("%H:%M:%S").ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.FilledQuantity.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.FilledTime.Format("%Y-%m-%d").ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.FilledTime.Format("%H:%M:%S").ToLower()+",");
+	vec_tmp.Push_back( sepChar + numtostr(ord.LimitPrice,3)+",");
+	vec_tmp.Push_back( sepChar + ord.OrderID.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.State.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.StateDetail.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.AvgFilledPrice.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.Symbol.ToString().ToLower()+",");
+	vec_tmp.Push_back( sepChar + ord.Type.ToString().ToLower()+",");
+	//vec_tmp.Push_back("limitprice" + sepChar + ord.LimitPrice.ToString().ToLower());
+	Try
+		vec_tmp.Push_back(sepChar + ord.ExtendedProperties["OrderName"].ToString()+NEWLINE);
+	catch(elsystem.Exception ex)
+		vec_tmp.Push_back(sepChar + ""+NEWLINE);
+	End; 
+	
+	for loop = 0 to vec_tmp.Count-1
+	Begin
+		str = str + vec_tmp[loop].ToString();
+	End;
+	
+	Return str; 
+End;
+{
+Method string FilledOrderToString(Order ord)
+vars:string ordName;
+Begin
+	ordName = "";
+	Try
+		ordName = ord.ExtendedProperties["OrderName"].ToString();
+	catch(elsystem.Exception ex)
+	End;
+	Return ordName+","+Ord.Symbol+","+OrderActionParse(ord.Action)+","+orderTypeParse(ord.Type)+","+
+	return
+End;
+}
+
+
+
+

@@ -1,0 +1,475 @@
+﻿using elsystem;
+using elsystem.collections;
+using elsystem.windows.forms;
+using tsdata.common;
+using tsdata.marketdata;
+using guosen;  
+
+//---------------------------------------------------------------------------------------------
+//	External C++ functions to register EL Host 
+//---------------------------------------------------------------------------------------------
+
+
+method void PositionsProvider1_Updated( elsystem.Object sender, tsdata.trading.PositionUpdatedEventArgs args ) 
+begin
+	//LogMessage("PositionsProvider1_Updated");
+end;
+
+external: "ELInterop.dll", bool, "ELInteropRegisterHost", int; {cmd_handle}
+external: "ELInterop.dll", bool, "ELInteropUnregisterHost", int; {cmd_handle}   
+external: "ELInterop.dll", bool, "ELInteropSetResult", stringw; {result}   
+
+//---------------------------------------------------------------------------------------------
+//	Global variables used in the application
+//---------------------------------------------------------------------------------------------
+var: Form frmMain(null), Button btnCmd(null), ListView lvLog(null), 
+     OrderTicket ticket(null), Dictionary ordersSent(null),Dictionary ordersReceive(null); 
+
+//---------------------------------------------------------------------------------------------
+//	Initialized event handler user to create the application UI and do the host registration
+//---------------------------------------------------------------------------------------------
+method void AnalysisTechnique_Initialized( elsystem.Object sender, elsystem.InitializedEventArgs args ) 
+var: Panel pnlButtons, TableLayoutPanel layoutPanel, Panel pnlLog, bool b;
+begin
+	frmMain = new Form();
+	
+	btnCmd = new Button();
+	btnCmd.Name = "btnCommand";
+	btnCmd.ControlLocation.X = -100;
+	btnCmd.ControlLocation.Y = -100;
+	btnCmd.Click += OnBtnCmdClick;
+	
+	lvLog = new ListView();
+	lvLog.AddColumns(ColumnHeader.Create(!("Number"), HorizontalAlignment.Left, 50));
+	lvLog.AddColumns(ColumnHeader.Create(!("Timestamp"), HorizontalAlignment.Left, 130));
+	lvLog.AddColumns(ColumnHeader.Create(!("Message"), HorizontalAlignment.Left, 750)); 
+	lvLog.Dock = DockStyle.Fill;
+	
+	pnlButtons = new Panel();
+	pnlButtons.Dock = DockStyle.Fill;
+	
+	pnlLog = new Panel();
+	pnlLog.Dock = DockStyle.Fill;
+	pnlLog.Controls.Add( lvLog );
+	
+	layoutPanel = new TableLayoutPanel();
+	layoutPanel.Dock = DockStyle.Fill;
+	layoutPanel.AddRowStyle( SizeType.Absolute, 0 );
+	layoutPanel.AddRowStyle( SizeType.Percent, 100 );
+	layoutPanel.AddControl( pnlButtons, 0, 0 );
+	layoutPanel.AddControl( pnlLog, 0, 1 ); 
+	
+	frmMain.Text = !("MatLab Interop");
+	frmMain.Dock = DockStyle.Fill;
+	frmMain.Controls.Add( btnCmd );
+	frmMain.Controls.Add( layoutPanel );
+	frmMain.Name = !("MatLab Interop");
+	frmMain.Show();
+	
+	ticket = OrderTicket.Create();
+	ordersSent = new Dictionary;
+	ordersReceive = new Dictionary;
+	
+	b = ELInteropRegisterHost(btnCmd.Handle);
+	
+	if b then
+		LogMessage(!("LingWang Interop connected"))
+	else
+		LogMessage(!("LingWang Interop not connected"));
+end;
+
+//---------------------------------------------------------------------------------------------
+//	UnInitialized event handler used to unregister the host
+//---------------------------------------------------------------------------------------------
+method void AnalysisTechnique_UnInitialized( elsystem.Object sender, elsystem.UnInitializedEventArgs args ) 
+begin
+	ELInteropUnregisterHost(btnCmd.Handle);
+end;
+
+//---------------------------------------------------------------------------------------------
+//	This OnClick event handler gets triggered from the c++ dll. It is used to send commands to EL 
+//  COMMAND=SENDORDER;ACCOUNT=110000000218;ACTION=BUY;SYMBOL=000060.SZ;QUANTITY=100;TYPE=MARKET;DURATION=GFD;CLIENTID=12345
+//---------------------------------------------------------------------------------------------
+method void OnBtnCmdClick(Object sender, EventArgs args)
+var: Vector vectProperties, Vector vectCommand;
+begin
+	LogMessage(!("Command Received=")+btnCmd.Text);
+	vectProperties = btnCmd.Text.Split(";");
+	btnCmd.Tag = null;
+	
+	//the first property must be the command
+	if vectProperties.empty() = false then
+	begin
+		vectCommand = (vectProperties[0] astype string).Split("=");	
+		if vectCommand.Count = 2 and (vectCommand[0] astype string).CompareTo("COMMAND") = 0 then
+		begin
+			vectProperties.erase(0);
+			
+			switch(vectCommand[1] astype string)
+			begin
+				case "SENDORDER" : SendOrder(vectProperties);
+				case "CANCELORDER" : CancelOrder(vectProperties);
+				case "QUERYORDERSTATE" : QueryOrderState(vectProperties);
+				case "QUERYPOSITION" : QueryPosition(vectProperties);
+			end;
+		end;	 
+	end;
+end;
+
+//---------------------------------------------------------------------------------------------
+//	Add a log message to the UI
+//---------------------------------------------------------------------------------------------
+method void LogMessage(string message)
+begin
+	lvLog.AddRow(lvlog.RowsCount + 1, DateTime.Now.ToString(), message);	 
+end;
+
+//---------------------------------------------------------------------------------------------
+//	Parse the order properties separated by ; for example :
+//	ACCOUNT=110000000218;ACTION=BUY;SYMBOL=000060.SZ;QUANTITY=100;TYPE=MARKET;DURATION=GFD;CLIENTID=12345
+//	And sends the order
+//---------------------------------------------------------------------------------------------
+method void SendOrder(Vector vectProperties)
+var: int it, Vector vectProperty, string strProperty,
+     Order orderSent, string clientID, string prop,string pdu;
+begin
+	clientID = "";
+	pdu      = "Msg=SendOrder;";
+	
+	try
+		for it = 0 to vectProperties.Count-1 
+		begin
+			strProperty = vectProperties[it] astype string;
+			vectProperty = strProperty.Split("=");
+			
+			if (vectProperty.Count = 2) then
+			begin
+				prop = vectProperty[0] astype string;
+				
+			 	if prop.CompareTo("CLIENTID") = 0 then
+			 		clientID = vectProperty[1] astype string
+				else
+					SetTicketProperty(prop, vectProperty[1] astype string);
+			end;
+		end;
+		
+		if clientId.Length = 0 then
+		begin
+			LogMessage(!("Order received without client ID"));
+		end
+		else
+		begin
+			orderSent = ticket.Send();
+			orderSent.Updated += OnOrderUpdated;
+			ordersSent[clientID] = orderSent;
+			//ordersReceive[orderSent]=clientID;
+			LogMessage(!("Order sent with client ID : ") + clientID);
+			//to do ...
+			//orderSend.SpreadName=clientID;
+			pdu = pdu + !("ClientID=")+ clientID+!(";");				
+			LogMessage(pdu);
+			//ELInteropSetResult(pdu);
+		end;
+	catch(Exception ex)
+		LogMessage(!("Error parsing order received : ") + ex.Message); 
+	end;
+end;
+
+method void QueryOrderState(Vector vectProperties)
+var : string clientID, Order order,string pdu;
+begin
+    pdu       = "Msg=QueryOrderState;";
+	clientID  = GetClientID(vectProperties);
+		
+	if ordersSent.Contains(clientID) then
+	begin
+		order = ordersSent[clientID] astype Order;
+		LogMessage("order found with id = " + clientID + " state = " + order.State.ToString());				
+		ELInteropSetResult(order.State.ToString());
+		
+		pdu = pdu + !("ClientID=")+ clientID+!(";");
+		pdu = pdu + !("Symbol=") + order.Symbol+!(";");
+		pdu = pdu + !("OrderID=") + order.OrderID+!(";");
+		pdu = pdu + !("State=") + order.State.ToString()+!(";");
+		pdu = pdu + !("EnteredQuantity=") + NumToStr(order.EnteredQuantity,3)+!(";");	
+		pdu = pdu + !("LimitPrice=") + NumToStr(Order.LimitPrice,3)+!(";");
+		pdu = pdu + !("LeftQuantity=") + NumToStr(order.LeftQuantity,3)+!(";");
+		pdu = pdu + !("FilledQuantity=") + NumToStr(order.FilledQuantity,3)+!(";");
+		pdu = pdu + !("AvgFilledPrice=") + NumToStr(order.AvgFilledPrice,3)+!(";");	
+		pdu = pdu + !("FilledTime=") + order.FilledTime.ToString() +!(";");	
+		pdu = pdu + !("EnteredTime=") + order.EnteredTime.ToString() +!(";");	
+		LogMessage(pdu);
+		ELInteropSetResult(pdu);
+	end
+	else
+		ELInteropSetResult("order not found");
+end;
+
+method void QueryPosition(Vector vectProperties)
+var : Order order,string pdu,string account,int iCount,tsdata.trading.Position posi,string s;
+begin     
+    account   = Get_Account(vectProperties);
+    s         = Get_Symbol(vectProperties);
+    if s = "none" then    
+    	For iCount = 0 to ordersSent.Values.Count -1 
+        	Begin         	
+        	pdu       = "Msg=QueryPosition;";   
+        	order = ordersSent.Values[iCount] astype Order;
+        	//posi = PositionsProvider1.Position[order.Symbol,account];          
+        	pdu = pdu + !("Symbol=") + PositionsProvider1.Position[order.Symbol,account].Symbol+!(";");
+        	pdu = pdu + !("AccountID=") + PositionsProvider1.Position[order.Symbol,account].AccountID+!(";");
+        	pdu = pdu + !("Quantity=") + NumToStr(PositionsProvider1.Position[order.Symbol,account].Quantity,3)+!(";"); 
+        	pdu = pdu + !("AveragePrice=") + NumToStr(PositionsProvider1.Position[order.Symbol,account].AveragePrice,3) +!(";");   
+        	pdu = pdu + !("MarketValue=") + NumToStr(PositionsProvider1.Position[order.Symbol,account].MarketValue,3) +!(";");   
+        	pdu = pdu + !("TotalCost=") + NumToStr(PositionsProvider1.Position[order.Symbol,account].TotalCost,3) +!(";");
+        	LogMessage(pdu);
+			ELInteropSetResult(pdu);	        		
+        	End       
+    else
+    	begin
+    		pdu  = "Msg=QueryPosition;";        
+        	//posi = PositionsProvider1.Position[s,account];          
+        	pdu = pdu + !("Symbol=") + PositionsProvider1.Position[s,account].Symbol+!(";");
+        	pdu = pdu + !("AccountID=") + PositionsProvider1.Position[s,account].AccountID+!(";");
+        	pdu = pdu + !("Quantity=") + NumToStr(PositionsProvider1.Position[s,account].Quantity,3)+!(";"); 
+        	pdu = pdu + !("AveragePrice=") + NumToStr(PositionsProvider1.Position[s,account].AveragePrice,3) +!(";");   
+        	pdu = pdu + !("MarketValue=") + NumToStr(PositionsProvider1.Position[s,account].MarketValue,3) +!(";");   
+        	pdu = pdu + !("TotalCost=") + NumToStr(PositionsProvider1.Position[s,account].TotalCost,3) +!(";");
+        	LogMessage(pdu);
+			ELInteropSetResult(pdu);	
+    	end;        	
+end;
+
+method void CancelOrder(Vector vectProperties)
+var : string clientID, Order order;
+begin
+	clientID  = GetClientID(vectProperties);
+	
+	if ordersSent.Contains(clientID) then
+	begin
+		order = ordersSent[clientID] astype Order;
+		LogMessage("Cancelling order with id = " + clientID);
+		order.Cancel();
+	end
+	else
+		ELInteropSetResult("order not found");
+end;
+
+method string GetClientID(Vector vectProperties)
+var : int it, Vector vectProperty, string prop,
+      string strProperty, string clientID;
+begin
+	for it = 0 to vectProperties.Count-1 
+	begin
+		strProperty = vectProperties[it] astype string;
+		vectProperty = strProperty.Split("=");
+		
+		if (vectProperty.Count = 2) then
+		begin
+			prop = vectProperty[0] astype string;
+			
+			if prop.CompareTo("CLIENTID") = 0 then
+			begin
+			 	clientID = vectProperty[1] astype string;
+			 	break;
+			end;
+		end;
+	end;
+	
+	return clientID;
+end;
+
+method string Get_Account(Vector vectProperties)
+var : int it, Vector vectProperty, string prop,
+      string strProperty, string account;
+begin
+	for it = 0 to vectProperties.Count-1 
+	begin
+		strProperty = vectProperties[it] astype string;
+		vectProperty = strProperty.Split("=");
+		
+		if (vectProperty.Count = 2) then
+		begin
+			prop = vectProperty[0] astype string;
+			
+			if prop.CompareTo("ACCOUNT") = 0 then
+			begin
+			 	account = vectProperty[1] astype string;
+			 	break;
+			end;
+		end;
+	end;	
+	return account;
+end;
+
+method string Get_Symbol(Vector vectProperties)
+var : int it, Vector vectProperty, string prop,
+      string strProperty, string account;
+begin
+	for it = 0 to vectProperties.Count-1 
+	begin
+		strProperty = vectProperties[it] astype string;
+		vectProperty = strProperty.Split("=");
+		
+		if (vectProperty.Count = 2) then
+		begin
+			prop = vectProperty[0] astype string;
+			
+			if prop.CompareTo("SYMBOL") = 0 then
+			begin
+			 	account = vectProperty[1] astype string;
+			 	break;
+			end;
+		end;
+	end;	
+	return account;
+end;
+//---------------------------------------------------------------------------------------------
+//	Parse each section of the order string, possible values are :
+//	ACCOUNT    : string 
+//  ACTION     : BUY, SELL, BUYTOCOVER, SELLSHORT 
+//              (if more values needed method ParseOrderAction shoud be modified)
+//	SYMBOL     : string
+//	QUANTITY   : number
+//	TYPE	   : LIMIT, MARKET, STOPLIMIT, STOPMARKET
+//	LIMITPRICE : number representing the limit price
+//	STOPPRICE  : numbre representing the stop price 
+//  DURATION   : string
+//---------------------------------------------------------------------------------------------
+method void SetTicketProperty(string propName, string propValue)
+begin
+	switch(propName)
+	begin
+		//guosen specific properties
+		case "ACTION" : ticket.Action = ParseOrderAction(propValue);
+		case "BYPASSCLIENTVALIDATION" : ticket.BypassClientValidation = ELBoolean.Parse(propValue);
+		case "PAYBYCASHAMOUNT" : ticket.PayByCashAmount = ELDouble.Parse(propValue);
+		
+		//common properties
+		case "ACCOUNT" : ticket.Account = propValue;
+		case "SYMBOL" : ticket.Symbol = propValue;
+		case "QUANTITY" : ticket.Quantity = ELInt.Parse(propValue);
+		case "TYPE" : ticket.Type = ParseOrderType(propValue);
+		case "LIMITPRICE" : ticket.LimitPrice = ELDouble.Parse(propValue);
+		case "STOPPRICE" : ticket.StopPrice = ELDouble.Parse(propValue);
+		case "DURATION" : ticket.Duration = propValue;
+	end;
+end; 
+
+//---------------------------------------------------------------------------------------------
+//	Order Action parsing
+//---------------------------------------------------------------------------------------------
+method OrderAction ParseOrderAction(string strValue)
+begin
+	switch(strValue)
+	begin
+	    case "BORROWTOBUY" : return OrderAction.BorrowToBuy;
+	    case "BORROWTOSELL" : return OrderAction.BorrowToSell;
+		case "BUY" : return OrderAction.Buy;
+		case "BUYTOCLOSE" : return OrderAction.BuyToClose;
+		case "BUYTOCOVER" : return OrderAction.BuyToCover;
+		case "BUYTOOPEN" : return OrderAction.BuyToOpen;
+		case "BUYTOPAY" : return OrderAction.BuyToPay;
+		case "COLLATERALBUY" : return OrderAction.CollateralBuy;
+		case "COLLATERALSELL" : return OrderAction.CollateralSell;
+		case "COVERTOCLOSE" : return OrderAction.CoverToClose;
+		case "COVERTOOPEN" : return OrderAction.CoverToOpen;
+		case "ETFPURCHASE" : return OrderAction.ETFPurchase;
+		case "ETFREDEEM" : return OrderAction.ETFRedeem;
+		case "MERGE" : return OrderAction.Merge;
+		case "PAYBYCASH" : return OrderAction.PayByCash;
+		case "PAYBYSTOCK" : return OrderAction.PayByStock;
+		case "PURCHASE" : return OrderAction.Purchase;
+		case "REDEEM" : return OrderAction.Redeem;
+		case "SELL" : return OrderAction.Sell;
+		case "SELLSHORT" : return OrderAction.SellShort;
+		case "SELLTOCLOSE" : return OrderAction.SellToClose;
+		case "SELLTOOPEN" : return OrderAction.SellToOpen;
+		case "SELLTOPAY" : return OrderAction.SellToPay;
+		case "SPLIT" : return OrderAction.Split;
+		
+		default : return OrderAction.Unknown;
+	end;
+end;
+
+//---------------------------------------------------------------------------------------------
+//	Order Type parsing
+//---------------------------------------------------------------------------------------------
+method tsdata.trading.OrderType ParseOrderType(string strValue)
+begin
+	switch(strValue)
+	begin
+		case "LIMIT" : return tsdata.trading.OrderType.Limit;
+		case "MARKET" : return tsdata.trading.OrderType.Market;
+		case "STOPLIMIT" : return tsdata.trading.OrderType.StopLimit;
+		case "STOPMARKET" : return tsdata.trading.OrderType.StopMarket;
+		default : return tsdata.trading.OrderType.Unknown;
+	end;
+end;
+
+//---------------------------------------------------------------------------------------------
+//	Event handler for the order updated event, here we add a message to the UI 
+//  for each event received
+//---------------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------------
+//	Parse the order properties separated by ; for example :
+//	Msg=OnRtnOrder;Symbol=000060.SZ;State=Filled;Quantity=100;Price=11;OrderID=12345;
+//	And sends the order
+//---------------------------------------------------------------------------------------------
+method void OnOrderUpdated(Object sender, OrderUpdatedEventArgs args)
+var: string message,string pdu,int iCount,string clientID;
+begin    
+	message = !("---Update for Order with");	
+	
+	pdu=!("Msg=OnOrderUpdated;");	
+	
+	message = message + !(" Symbol = ") + args.Symbol;
+	
+	pdu = pdu + !("Symbol=") + args.Symbol+!(";");
+	
+	message = message + !(" State = ") + args.State.ToString();
+	
+	pdu = pdu + !("State=") + args.State.ToString()+!(";");			
+	
+	if ( args.OrderID.Length > 0) then
+	    begin
+		
+		message = message + !(" ID = ") + args.OrderID;
+		
+		pdu = pdu + !("OrderID=") + args.OrderID+!(";");		    
+		
+		pdu = pdu + !("StateDetail=") + args.Order.StateDetail.ToString()+!(";");
+		
+		pdu = pdu + !("EnteredQuantity=") + NumToStr(args.Order.EnteredQuantity,3)+!(";");
+		
+		pdu = pdu + !("LeftQuantity=") + NumToStr(args.Order.LeftQuantity,3)+!(";");
+		
+		pdu = pdu + !("FilledQuantity=") + NumToStr(args.Order.FilledQuantity,3)+!(";");
+		
+		pdu = pdu + !("AvgFilledPrice=") + NumToStr(args.Order.AvgFilledPrice,3)+!(";");		
+		
+		pdu = pdu + !("FilledTime=") + args.Order.FilledTime.ToString() +!(";");	
+		
+		pdu = pdu + !("EnteredTime=") + args.Order.EnteredTime.ToString() +!(";");	
+		
+		//pdu = pdu + !("Count=") + NumToStr(ordersSent.Keys.Count,3) +!(";");
+		
+		pdu = pdu + !("Message=") + args.Message +!(";");
+		
+		For iCount = 0 to ordersSent.Keys.Count -1 
+        	Begin 
+        		clientID = ordersSent.Keys[iCount].ToString();        	
+        		If ( args.Order.Equals(ordersSent[clientID])=true) then
+        		Begin
+        		pdu = pdu + !("ClientID=") + clientID+!(";");
+        		end;     	                              
+        	End ;       
+		end;
+	
+	If (args.Message.Length > 0) then
+		message = message + !(" Message = ") + args.Message;
+		
+	LogMessage(message);
+	LogMessage(pdu);
+	ELInteropSetResult(pdu);
+end; 
