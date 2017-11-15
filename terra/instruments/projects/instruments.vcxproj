@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{B816749B-36E9-425E-A3E3-380D2F86E4D6}</ProjectGuid>
+    <RootNamespace>terra.instruments</RootNamespace>
+    <ProjectName>terra.instruments</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../lib/vc90_$(Configuration)/\</OutDir>
+    <IntDir>..\obj\vc90_$(Configuration)/\</IntDir>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../lib/vc90_$(Configuration)/\</OutDir>
+    <IntDir>../obj/vc90_$(Configuration)/\</IntDir>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_LIB_DIAGNOSTIC</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <BrowseInformation>true</BrowseInformation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\common\include;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\abstractderivative.h" />
+    <ClInclude Include="..\include\converse.h" />
+    <ClInclude Include="..\include\currency.h" />
+    <ClInclude Include="..\include\derivclassbase.h" />
+    <ClInclude Include="..\include\etf.h" />
+    <ClInclude Include="..\include\feesstructure.h" />
+    <ClInclude Include="..\include\financialinstrument.h" />
+    <ClInclude Include="..\include\forex.h" />
+    <ClInclude Include="..\include\forexclass.h" />
+    <ClInclude Include="..\include\future.h" />
+    <ClInclude Include="..\include\futureclass.h" />
+    <ClInclude Include="..\include\futurespread.h" />
+    <ClInclude Include="..\include\index.h" />
+    <ClInclude Include="..\include\instrumentclass.h" />
+    <ClInclude Include="..\include\instrumentcommon.h" />
+    <ClInclude Include="..\include\instrumentenum.h" />
+    <ClInclude Include="..\include\maturity.h" />
+    <ClInclude Include="..\include\option.h" />
+    <ClInclude Include="..\include\optionclass.h" />
+    <ClInclude Include="..\include\referential.h" />
+    <ClInclude Include="..\include\stock.h" />
+    <ClInclude Include="..\include\stockclass.h" />
+    <ClInclude Include="..\include\strikeparity.h" />
+    <ClInclude Include="..\include\tickrule.h" />
+    <ClInclude Include="..\include\tradingperiod.h" />
+    <ClInclude Include="..\include\tradingperiodmanager.h" />
+    <ClInclude Include="..\include\underlying.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\abstractderivative.cpp" />
+    <ClCompile Include="..\src\derivclassbase.cpp" />
+    <ClCompile Include="..\src\etf.cpp" />
+    <ClCompile Include="..\src\feesstructure.cpp" />
+    <ClCompile Include="..\src\financialinstrument.cpp" />
+    <ClCompile Include="..\src\forex.cpp" />
+    <ClCompile Include="..\src\forexclass.cpp" />
+    <ClCompile Include="..\src\future.cpp" />
+    <ClCompile Include="..\src\futureclass.cpp" />
+    <ClCompile Include="..\src\futurespread.cpp" />
+    <ClCompile Include="..\src\index.cpp" />
+    <ClCompile Include="..\src\instrumentclass.cpp" />
+    <ClCompile Include="..\src\instrumentcommon.cpp" />
+    <ClCompile Include="..\src\maturity.cpp" />
+    <ClCompile Include="..\src\option.cpp" />
+    <ClCompile Include="..\src\optionclass.cpp" />
+    <ClCompile Include="..\src\referential.cpp" />
+    <ClCompile Include="..\src\stock.cpp" />
+    <ClCompile Include="..\src\stockclass.cpp" />
+    <ClCompile Include="..\src\strikeparity.cpp" />
+    <ClCompile Include="..\src\tickrule.cpp" />
+    <ClCompile Include="..\src\tradingperiod.cpp" />
+    <ClCompile Include="..\src\tradingperiodmanager.cpp" />
+    <ClCompile Include="..\src\underlying.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

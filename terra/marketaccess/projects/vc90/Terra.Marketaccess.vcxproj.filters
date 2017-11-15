@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\OrderPassing">
+      <UniqueIdentifier>{6d1beb0b-91f8-47a4-ba55-f2937315f869}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OrderPassing\interface">
+      <UniqueIdentifier>{562e65af-16f0-4629-8617-104b2a5a368b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OrderPassing\container">
+      <UniqueIdentifier>{cbb14ac0-961b-4f4f-9fdd-abdfea626d4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\position">
+      <UniqueIdentifier>{e99d6409-7137-4078-9c49-acb59a4c052f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\position\container">
+      <UniqueIdentifier>{e94fc1cd-73ef-49b9-995f-dbf41238da4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\OrderPassing">
+      <UniqueIdentifier>{3da0249a-f689-46c2-bf3b-0415954b2434}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\OrderPassing\container">
+      <UniqueIdentifier>{a8f573e3-c538-4064-a10c-34afd3f974cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\postion">
+      <UniqueIdentifier>{4a9b4a9a-aee7-48b3-98c9-99975f01959a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\postion\container">
+      <UniqueIdentifier>{8e4364c1-dc06-4ea7-a762-dc0ceedb452a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\chief_exec_book.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\chief_order_book.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\exec_gh.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\exec_persister.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\order_gh.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\order_reference_provider.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\tradeItem_order_book.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iconnection_event_handler.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iconnection_status_event_handler.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iexecbook_event_handler.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\imarket_event_handler.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iorderbook_event_handler.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\connection_statistics.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\exec.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\order.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\portfolio_container.h">
+      <Filter>Header Files\position\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\portfolio_gh.h">
+      <Filter>Header Files\position\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\portfolio.h">
+      <Filter>Header Files\position</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\position.h">
+      <Filter>Header Files\position</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\position_persister.h">
+      <Filter>Header Files\position</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\connection_container.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\connection_gh.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\tradingaccount.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\cplusplusEvent.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\connection.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\orderdatadef.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\resynchronizationmode.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\exec_book_notifier.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\order_book_notifier.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iorderbook.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\iorderobserver.h">
+      <Filter>Header Files\OrderPassing\interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\tradeItem_container.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\tradeItem_gh.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\tradeitem.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\conn_status_change_notifier.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\ctpbase_connection.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\quote.h">
+      <Filter>Header Files\OrderPassing</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\chief_quote_book.h">
+      <Filter>Header Files\OrderPassing\container</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\connection.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\order.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\exec.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\chief_exec_book.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\chief_order_book.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\exec_persister.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\order_reference_provider.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tradeItem_order_book.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\portfolio_container.cpp">
+      <Filter>Source Files\postion\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\portfolio.cpp">
+      <Filter>Source Files\postion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\position.cpp">
+      <Filter>Source Files\postion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\position_persister.cpp">
+      <Filter>Source Files\postion</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\connection_container.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tradeItem_container.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\tradeitem.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\ctpbase_connection.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\quote.cpp">
+      <Filter>Source Files\OrderPassing</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\chief_quote_book.cpp">
+      <Filter>Source Files\OrderPassing\container</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

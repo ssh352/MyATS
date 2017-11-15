@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\include\abstractats.h" />
+    <ClInclude Include="..\include\abstractworkflowtask.h" />
+    <ClInclude Include="..\include\atsconfig.h" />
+    <ClInclude Include="..\include\atsdailydata.h" />
+    <ClInclude Include="..\include\atsinstrument.h" />
+    <ClInclude Include="..\include\atsintradata.h" />
+    <ClInclude Include="..\include\atsmanager.h" />
+    <ClInclude Include="..\include\baseatsdata.h" />
+    <ClInclude Include="..\include\callbacktask.h" />
+    <ClInclude Include="..\include\count_task.h" />
+    <ClInclude Include="..\include\define.h" />
+    <ClInclude Include="..\include\deviation_security_rule.h" />
+    <ClInclude Include="..\include\dumpintradaytask.h" />
+    <ClInclude Include="..\include\feedsourcefactory.h" />
+    <ClInclude Include="..\include\frequency_security_rule.h" />
+    <ClInclude Include="..\include\heartbeatcheck.h" />
+    <ClInclude Include="..\include\iorder_security_rule.h" />
+    <ClInclude Include="..\include\managed_orderpassing.h" />
+    <ClInclude Include="..\include\max_nominal_security_rule.h" />
+    <ClInclude Include="..\include\multi_feed_ats_instrument.h" />
+    <ClInclude Include="..\include\order_security_controller.h" />
+    <ClInclude Include="..\include\phasetask.h" />
+    <ClInclude Include="..\include\pnltask.h" />
+    <ClInclude Include="..\include\price_order_container.h" />
+    <ClInclude Include="..\include\pricingtask.h" />
+    <ClInclude Include="..\include\quantity_security_rule.h" />
+    <ClInclude Include="..\include\time_order_container.h" />
+    <ClInclude Include="..\include\total_price_data.h" />
+    <ClInclude Include="..\include\twap_thread_pool.h" />
+    <ClInclude Include="..\include\work_flow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\baseatsdata.cpp" />
+    <ClCompile Include="..\src\abstractats.cpp" />
+    <ClCompile Include="..\src\atsconfig.cpp" />
+    <ClCompile Include="..\src\atsdailydata.cpp" />
+    <ClCompile Include="..\src\atsinstrument.cpp" />
+    <ClCompile Include="..\src\atsintradata.cpp" />
+    <ClCompile Include="..\src\atsmanager.cpp" />
+    <ClCompile Include="..\src\callbacktask.cpp" />
+    <ClCompile Include="..\src\count_task.cpp" />
+    <ClCompile Include="..\src\deviation_security_rule.cpp" />
+    <ClCompile Include="..\src\dumpintradaytask.cpp" />
+    <ClCompile Include="..\src\feedsourcefactory.cpp" />
+    <ClCompile Include="..\src\frequency_security_rule.cpp" />
+    <ClCompile Include="..\src\heartbeatcheck.cpp" />
+    <ClCompile Include="..\src\managed_orderpassing.cpp" />
+    <ClCompile Include="..\src\max_nominal_security_rule.cpp" />
+    <ClCompile Include="..\src\multi_feed_ats_instrument.cpp" />
+    <ClCompile Include="..\src\order_security_controller.cpp" />
+    <ClCompile Include="..\src\phasetask.cpp" />
+    <ClCompile Include="..\src\pnltask.cpp" />
+    <ClCompile Include="..\src\price_order_container.cpp" />
+    <ClCompile Include="..\src\pricingtask.cpp" />
+    <ClCompile Include="..\src\quantity_security_rule.cpp" />
+    <ClCompile Include="..\src\time_order_container.cpp" />
+    <ClCompile Include="..\src\total_price_data.cpp" />
+    <ClCompile Include="..\src\twap_thread_pool.cpp" />
+    <ClCompile Include="..\src\work_flow.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{81595B90-233D-4C27-9259-85D7D0504C9E}</ProjectGuid>
+    <RootNamespace>terra.atsv2</RootNamespace>
+    <ProjectName>terra.ats</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../lib/vc90_$(Configuration)/\</OutDir>
+    <IntDir>..\obj\vc90_$(Configuration)/\</IntDir>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>../lib/vc90_$(Configuration)/\</OutDir>
+    <IntDir>../obj/vc90_$(Configuration)/\</IntDir>
+    <TargetExt>.lib</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_LIB_DIAGNOSTIC;WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\..\feed\tdf\include;..\..\..\feed\tdf\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\feedcommon\include;..\..\..\orderpassing;..\..\..\orderpassing\lts\api\include;..\..\..\orderpassing\cffex\api\include;..\..\..\orderpassing\xspeed\api\include;..\..\..\orderpassing\xspeed_of\api\include;$(WORKDIR2)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;..\..\..\feed\xspeed2\api\include;..\..\..\feed\xspeed2\include;..\..\..\feed\ltscffexudp\include;..\..\..\feed\ib\include;$(WORKDIR2)\terra\tbb\include;..\..\..\feed\fs\include;..\..\..\feed\fs\api\include;..\..\..\orderpassing\fs\api\include;..\..\..\orderpassing\fs\include;..\..\..\feed\sl\include;..\..\..\feed\sl\api\include;..\..\..\orderpassing\sl\api\include;..\..\..\orderpassing\sl\include;..\..\..\orderpassing\lts_file\include;..\..\..\orderpassing\gx\include;..\..\..\orderpassing\x1\include;..\..\..\orderpassing\x1\api\include;..\..\..\feed\es\include;..\..\..\feed\es\api\include;..\..\..\orderpassing\es\include;..\..\..\orderpassing\es\api\include;..\..\..\feed\xsl2\api\include;..\..\..\feed\xsl2\include;..\..\..\orderpassing\femas\include;..\..\..\orderpassing\femas\api\include;$(WORKDIR2)\feed\sl2\include;$(WORKDIR2)\feed\sl2\api\include;..\..\..\feed\sf\include;..\..\..\feed\sf\api\include;$(WORKDIR2)\feed\TwsSocketClient;..\..\..\feed\zd\include;..\..\..\feed\zd\api\include;..\..\..\orderpassing\zd\include;..\..\..\orderpassing\zd\api\include;..\..\..\orderpassing\gx_file\include;..\..\..\orderpassing\ht_file\include;..\..\..\feed\xele\include;..\..\..\feed\xele\api\include</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>false</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <BrowseInformation>true</BrowseInformation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+    </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+    <Lib>
+      <AdditionalDependencies>terra.feedcommon.lib;terra.common.lib;terra.instruments.lib;feed.lts.lib;feed.ltsl2.lib;feed.ltsudp.lib;feed.ltscffexudp.lib;feed.cffex.lib;feed.femas.lib;feed.xspeed.lib;terra.marketaccess.lib;feed.xspeed2.lib;op.cffex.lib;op.lts.lib;op.xspeed.lib;op.xspeed_of.lib;feed.ib.lib;TwsSocketClient.lib;op.ib.lib;feed.fs.lib;op.fs.lib;feed.tdf.lib;feed.sl.lib;op.sl.lib;feed.es.lib;op.es.lib;feed.xsl2.lib;op.femas.lib;feed.sf.lib;op.sf.lib;feed.zd.lib;op.zd.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\feedcommon\lib\vc90_$(Configuration);$(WORKDIR2)\terra\instruments\lib\vc90_$(Configuration);..\..\..\feed\lts\lib\vc90_$(Configuration);..\..\..\feed\ltsl2\lib\vc90_$(Configuration);..\..\..\feed\ltsudp\lib\vc90_$(Configuration);..\..\..\feed\cffex\lib\vc90_$(Configuration);..\..\..\feed\femas\lib\vc90_$(Configuration);..\..\..\feed\xspeed\lib\vc90_$(Configuration);..\..\marketaccess\lib\vc90_$(Configuration);$(WORKDIR)\toolkit\common\lib\vc90_$(Configuration);..\..\common\lib\vc90_$(Configuration);..\..\..\feed\xspeed2\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\xspeed\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\xspeed_of\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\cffex\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\lts\lib\vc90_$(Configuration);..\..\..\feed\ltscffexudp\lib\vc90_$(Configuration);..\..\..\feed\ib\lib\vc90_$(Configuration);..\..\..\feed\ib\api\lib;$(WORKDIR2)\orderpassing\ib\lib\vc90_$(Configuration);..\..\..\feed\fs\lib\vc90_$(Configuration);..\..\..\feed\fs\api\lib;$(WORKDIR2)\orderpassing\fs\lib\vc90_$(Configuration);..\..\..\feed\tdf\lib\vc90_$(Configuration);..\..\..\feed\sl\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\sl\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\lts_file\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\gx\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\x1\lib\vc90_$(Configuration);..\..\..\feed\es\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\es\lib\vc90_$(Configuration);..\..\..\feed\xsl2\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\femas\lib\vc90_$(Configuration);..\..\..\feed\sf\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\sf\lib\vc90_$(Configuration);$(WORKDIR2)\feed\TwsSocketClient\$(Configuration);..\..\..\feed\zd\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\zd\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\gx_file\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\ht_file\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;..\..\..\feed\lts\include;..\..\..\feed\lts\api\include;..\..\..\feed\ltsl2\include;..\..\..\feed\ltsl2\api\include;..\..\..\feed\ltsudp\include;..\..\..\feed\cffex\include;..\..\..\feed\cffex\api\include;..\..\..\feed\femas\include;..\..\..\feed\femas\api\include;..\..\..\feed\xspeed\include;..\..\..\feed\xspeed\api\include;..\..\..\feed\tdf\include;..\..\..\feed\tdf\api\include;..\..\instruments\include;..\..\marketaccess\include;..\..\thrift_include\thrift\src\;..\..\common\include;..\..\feedcommon\include;..\..\..\orderpassing;..\..\..\orderpassing\lts\api\include;..\..\..\orderpassing\cffex\api\include;..\..\..\orderpassing\xspeed\api\include;..\..\..\orderpassing\xspeed_of\api\include;$(WORKDIR2)\terra\zmq404\include;..\..\thrift_include\zlib-1.2.8;..\..\..\feed\xspeed2\api\include;..\..\..\feed\xspeed2\include;..\..\..\feed\ltscffexudp\include;..\..\..\feed\ib\include;$(WORKDIR2)\terra\tbb\include;..\..\..\feed\fs\include;..\..\..\feed\fs\api\include;..\..\..\orderpassing\fs\api\include;..\..\..\orderpassing\fs\include;..\..\..\feed\sl\include;..\..\..\feed\sl\api\include;..\..\..\orderpassing\sl\api\include;..\..\..\orderpassing\sl\include;..\..\..\orderpassing\lts_file\include;..\..\..\orderpassing\gx\include;..\..\..\orderpassing\x1\include;..\..\..\orderpassing\x1\api\include;..\..\..\feed\es\include;..\..\..\feed\es\api\include;..\..\..\orderpassing\es\include;..\..\..\orderpassing\es\api\include;..\..\..\feed\xsl2\api\include;..\..\..\feed\xsl2\include;..\..\..\orderpassing\femas\include;..\..\..\orderpassing\femas\api\include;$(WORKDIR2)\feed\sl2\include;$(WORKDIR2)\feed\sl2\api\include;..\..\..\feed\sf\include;..\..\..\feed\sf\api\include;$(WORKDIR2)\feed\TwsSocketClient;..\..\..\feed\zd\include;..\..\..\feed\zd\api\include;..\..\..\orderpassing\zd\include;..\..\..\orderpassing\zd\api\include;..\..\..\orderpassing\gx_file\include;..\..\..\orderpassing\ht_file\include;..\..\..\feed\xele\include;..\..\..\feed\xele\api\include</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Async</ExceptionHandling>
+    </ClCompile>
+    <Link>
+      <TargetMachine>MachineX86</TargetMachine>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalDependencies>terra.feedcommon.lib;terra.common.lib;terra.instruments.lib;feed.cffex.lib;terra.marketaccess.lib;feed.xspeed2.lib;op.cffex.lib;op.xspeed_of.lib;TwsSocketClient.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\feedcommon\lib\vc90_$(Configuration);$(WORKDIR2)\terra\instruments\lib\vc90_$(Configuration);..\..\..\feed\lts\lib\vc90_$(Configuration);..\..\..\feed\ltsl2\lib\vc90_$(Configuration);..\..\..\feed\ltsudp\lib\vc90_$(Configuration);..\..\..\feed\cffex\lib\vc90_$(Configuration);..\..\..\feed\femas\lib\vc90_$(Configuration);..\..\..\feed\xspeed\lib\vc90_$(Configuration);..\..\marketaccess\lib\vc90_$(Configuration);$(WORKDIR)\toolkit\common\lib\vc90_$(Configuration);..\..\common\lib\vc90_$(Configuration);..\..\..\feed\xspeed2\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\xspeed\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\xspeed_of\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\cffex\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\lts\lib\vc90_$(Configuration);..\..\..\feed\ltscffexudp\lib\vc90_$(Configuration);..\..\..\feed\ib\lib\vc90_$(Configuration);..\..\..\feed\ib\api\lib;$(WORKDIR2)\orderpassing\ib\lib\vc90_$(Configuration);..\..\..\feed\fs\lib\vc90_$(Configuration);..\..\..\feed\fs\api\lib;$(WORKDIR2)\orderpassing\fs\lib\vc90_$(Configuration);..\..\..\feed\tdf\lib\vc90_$(Configuration);..\..\..\feed\sl\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\sl\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\lts_file\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\gx\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\x1\lib\vc90_$(Configuration);..\..\..\feed\es\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\es\lib\vc90_$(Configuration);..\..\..\feed\xsl2\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\femas\lib\vc90_$(Configuration);..\..\..\feed\sf\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\sf\lib\vc90_$(Configuration);$(WORKDIR2)\feed\TwsSocketClient\$(Configuration);..\..\..\feed\zd\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\zd\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\gx_file\lib\vc90_$(Configuration);$(WORKDIR2)\orderpassing\ht_file\lib\vc90_$(Configuration)</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

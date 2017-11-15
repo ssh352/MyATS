@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\chief_exec_book.h" />
+    <ClInclude Include="..\..\include\chief_order_book.h" />
+    <ClInclude Include="..\..\include\chief_quote_book.h" />
+    <ClInclude Include="..\..\include\connection.h" />
+    <ClInclude Include="..\..\include\connection_container.h" />
+    <ClInclude Include="..\..\include\connection_gh.h" />
+    <ClInclude Include="..\..\include\connection_statistics.h" />
+    <ClInclude Include="..\..\include\conn_status_change_notifier.h" />
+    <ClInclude Include="..\..\include\cplusplusEvent.h" />
+    <ClInclude Include="..\..\include\ctpbase_connection.h" />
+    <ClInclude Include="..\..\include\exec.h" />
+    <ClInclude Include="..\..\include\exec_book_notifier.h" />
+    <ClInclude Include="..\..\include\exec_gh.h" />
+    <ClInclude Include="..\..\include\exec_persister.h" />
+    <ClInclude Include="..\..\include\iconnection_event_handler.h" />
+    <ClInclude Include="..\..\include\iconnection_status_event_handler.h" />
+    <ClInclude Include="..\..\include\iexecbook_event_handler.h" />
+    <ClInclude Include="..\..\include\imarket_event_handler.h" />
+    <ClInclude Include="..\..\include\iorderbook.h" />
+    <ClInclude Include="..\..\include\iorderbook_event_handler.h" />
+    <ClInclude Include="..\..\include\iorderobserver.h" />
+    <ClInclude Include="..\..\include\order.h" />
+    <ClInclude Include="..\..\include\order_book_notifier.h" />
+    <ClInclude Include="..\..\include\orderdatadef.h" />
+    <ClInclude Include="..\..\include\order_gh.h" />
+    <ClInclude Include="..\..\include\order_reference_provider.h" />
+    <ClInclude Include="..\..\include\portfolio.h" />
+    <ClInclude Include="..\..\include\portfolio_container.h" />
+    <ClInclude Include="..\..\include\portfolio_gh.h" />
+    <ClInclude Include="..\..\include\position.h" />
+    <ClInclude Include="..\..\include\position_persister.h" />
+    <ClInclude Include="..\..\include\quote.h" />
+    <ClInclude Include="..\..\include\resynchronizationmode.h" />
+    <ClInclude Include="..\..\include\tradeitem.h" />
+    <ClInclude Include="..\..\include\tradeItem_container.h" />
+    <ClInclude Include="..\..\include\tradeItem_gh.h" />
+    <ClInclude Include="..\..\include\tradeItem_order_book.h" />
+    <ClInclude Include="..\..\include\tradingaccount.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\chief_exec_book.cpp" />
+    <ClCompile Include="..\..\src\chief_order_book.cpp" />
+    <ClCompile Include="..\..\src\chief_quote_book.cpp" />
+    <ClCompile Include="..\..\src\connection.cpp" />
+    <ClCompile Include="..\..\src\connection_container.cpp" />
+    <ClCompile Include="..\..\src\ctpbase_connection.cpp" />
+    <ClCompile Include="..\..\src\exec.cpp" />
+    <ClCompile Include="..\..\src\exec_persister.cpp" />
+    <ClCompile Include="..\..\src\order.cpp" />
+    <ClCompile Include="..\..\src\order_reference_provider.cpp" />
+    <ClCompile Include="..\..\src\portfolio.cpp" />
+    <ClCompile Include="..\..\src\portfolio_container.cpp" />
+    <ClCompile Include="..\..\src\position.cpp" />
+    <ClCompile Include="..\..\src\position_persister.cpp" />
+    <ClCompile Include="..\..\src\quote.cpp" />
+    <ClCompile Include="..\..\src\tradeitem.cpp" />
+    <ClCompile Include="..\..\src\tradeItem_container.cpp" />
+    <ClCompile Include="..\..\src\tradeItem_order_book.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1260F1E7-A883-462A-BFCC-97573FD95E5E}</ProjectGuid>
+    <RootNamespace>toolkitmarketaccess</RootNamespace>
+    <ProjectName>terra.marketaccess</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>../../lib/vc90_$(Configuration)/\</OutDir>
+    <IntDir>../../obj/vc90_$(Configuration)/\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../lib/vc90_$(Configuration)/\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)/terra/marketaccess/include;$(WORKDIR2)/terra/instruments/include;$(BOOST_INC);$(WORKDIR2)/terra/common/include;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BrowseInformation>true</BrowseInformation>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(BOOST_LIB);$(WORKDIR)\toolkit\common\lib\vc90_$(Configuration);$(WORKDIR)\..\CppProjectsV2\thrift_lib\lib\windows_$(Configuration);$(WORKDIR)\..\CppProjectsV2\instruments\lib\vc90_$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>toolkit.common.lib;terra.instrumentsv2.lib;ws2_32.lib;libthrift.lib;libthriftnb.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+    </Lib>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>
+      </SDLCheck>
+      <AdditionalIncludeDirectories>$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)/terra/marketaccess/include;$(WORKDIR2)/terra/instruments/include;$(BOOST_INC);$(WORKDIR2)/terra/common/include;$(WORKDIR2)\terra\tbb\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <PrecompiledHeader />
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
