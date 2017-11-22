@@ -20,7 +20,7 @@
 //#endif
 //
 #define FEED_XS2
-#define FEED_XELE
+//#define FEED_XELE
 //#define FEED_ZD
 //
 //

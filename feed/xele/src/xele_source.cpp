@@ -72,20 +72,20 @@ namespace feed
 			        {
 						continue;
 						sFeedCode = mdtick.type_low.Instrument;
-						//cout<<"code:"<<sFeedCode<<" Lastprice:"<<mdtick.type_low.ClosePrice<<endl;
                     }
                     else if (mdtick.md_type[0] == 'Q') 
 					{
 						continue;
 						sFeedCode = mdtick.type_depth.Instrument;
-						//cout<<"code:"<<sFeedCode<<" Lastprice:"<<mdtick.type_depth.Price1<<endl;
                     }
 					std::string str = std::move(sFeedCode);
 					feed_item* afeed_item = ptr->get_feed_item(str);
 					if (afeed_item != nullptr)
 					{
+						ptr->load_feed((CXeleShfeMarketDataUnion *)&mdtick, afeed_item);
 						if (ptr->get_strPub() != "pub")
-							ptr->get_queue()->CopyPush((CXeleShfeMarketDataUnion *)&mdtick);
+							//ptr->get_queue()->CopyPush((CXeleShfeMarketDataUnion *)&mdtick);
+							ptr->get_queue()->CopyPush(&afeed_item);
 					}
 				}
 			}
@@ -103,7 +103,7 @@ namespace feed
 			m_strPasswd = Passwd;
 
 			m_core = mcore;
-			
+			m_pConnection = new xele_connection();	
 		}
 
 		xele_source::~xele_source()
@@ -198,16 +198,25 @@ namespace feed
 		{
 			CXeleShfeMarketDataUnion msg;
 			int rc = -1;
-			//while (true)
+			
 			{
 				rc = nn_recv(m_sub_handle, &msg, sizeof(msg), 0);
 				if (rc == sizeof(msg))
 				{
-					get_queue()->CopyPush(&msg);
+					string sFeedCode = msg.type_high.Instrument;
+					std::string str = std::move(sFeedCode);
+					feed_item* afeed_item = this->get_feed_item(str);
+					if (afeed_item != nullptr)
+					{
+						load_feed((CXeleShfeMarketDataUnion *)&msg, afeed_item);
+						get_queue()->CopyPush(&afeed_item);
+					}
+
 				}
 			}
 		}
 
+		/*
 		void xele_source::process_msg(CXeleShfeMarketDataUnion* pMsg)
 		{			
 			std::string  sFeedCode;
@@ -232,19 +241,25 @@ namespace feed
 			process_msg(pMsg, afeed_item);
 			return post(afeed_item);
 		}
+		*/
+
+		void xele_source::process_msg(feed_item** pMsg)
+		{
+			feed_item *it = *pMsg;
+			post(it);
+		}
 
 		void xele_source::process()
 		{
 			get_queue()->Pops_Handle();
 		}	
 
-		void xele_source::process_msg(CXeleShfeMarketDataUnion* pMsg, feed_item * feed_item)
+		void xele_source::load_feed(CXeleShfeMarketDataUnion* pMsg, feed_item * feed_item)
 		{
 			if (feed_item == nullptr || pMsg == nullptr)
 				return;
 			if (pMsg->md_type[0] != 'M')
 				return;
-			//pMsg->type_high.
 
 			
 			if (math2::not_zero(pMsg->type_high.BidPrice) && math2::not_zero(pMsg->type_high.AskPrice))
