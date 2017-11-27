@@ -231,17 +231,15 @@ namespace feed
 				BOOST_LOG_TRIVIAL(info) << "ctp rb1801:" << pDepthMarketData->Turnover << " tp:" << timep;
 			}
 
-			m_pSource->publish_msg((void*)pDepthMarketData, sizeof(CThostFtdcDepthMarketDataField), pDepthMarketData->InstrumentID);
-			//
-			//
-			// dynamic allocation for now
-			// delete is done in cffex_source (different thread).
-			//
-			//CThostFtdcDepthMarketDataField* pData = new CThostFtdcDepthMarketDataField;
-			//memcpy_lw(pData, pDepthMarketData, sizeof(CThostFtdcDepthMarketDataField));
-			//m_pSource->get_queue()->Push(pData);
-			if (m_pSource->get_strPub() != "pub")
-				m_pSource->get_queue()->CopyPush(pDepthMarketData);
+			//m_pSource->publish_msg((void*)pDepthMarketData, sizeof(CThostFtdcDepthMarketDataField), pDepthMarketData->InstrumentID);
+			//if (m_pSource->get_strPub() != "pub")
+			std::string str = std::string(pDepthMarketData->InstrumentID);
+			feed_item* afeed_item = m_pSource->get_feed_item(str);
+			if (afeed_item != nullptr)
+			{
+				m_pSource->update_item(pDepthMarketData, afeed_item);
+				m_pSource->get_queue()->CopyPush(&afeed_item);
+			}
 		}
 
 		void cffex_connection::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)

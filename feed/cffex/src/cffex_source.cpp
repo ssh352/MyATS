@@ -77,10 +77,13 @@ namespace feed
 				rc = nn_recv(m_sub_handle, &msg, sizeof(msg), 0);
 				if (rc == sizeof(msg))
 				{
-					//int t = microsec_clock::local_time().time_of_day().total_milliseconds();
-					//printf_ex("sl_source::start_receiver,%d-%d,%d\n", t, msg.UpdateMillisec, t - msg.UpdateMillisec);
-					//loggerv2::info("sl_source::start_receiver,%d-%d,%d", t, msg.UpdateMillisec, t - msg.UpdateMillisec);
-					get_queue()->CopyPush(&msg);
+					string sFeedCode = msg.InstrumentID;
+					feed_item* afeed_item = this->get_feed_item(sFeedCode);
+					if (afeed_item != nullptr)
+					{
+						update_item((CThostFtdcDepthMarketDataField *)&msg, afeed_item);
+						get_queue()->CopyPush(&afeed_item);
+					}
 				}
 			}
 		}
@@ -89,25 +92,26 @@ namespace feed
 		//{
 		//	m_pConnection->cleanup();					
 		//}
-		void cffex_source::process_msg(CThostFtdcDepthMarketDataField* pMsg)
+
+		/*void cffex_source::process_msg(CThostFtdcDepthMarketDataField* pMsg)
 		{
 			std::string sFeedCode = std::string(pMsg->InstrumentID);
-			//std::string instrName = get_code_by_feedcode(sFeedCode);
-			//if (instrName.empty())
-			//{
-			//	loggerv2::error("cffex_source::process_msg cannot find Code for FeedCode %s.", sFeedCode.c_str());
-			//	return;
-			//}
+
 			feed_item* afeed_item = get_feed_item(sFeedCode);
 			if (afeed_item == NULL)
 			{
-				//loggerv2::error("cffex_source::process_msg instrument %s not found", pMsg->InstrumentID);
+				loggerv2::error("cffex_source::process_msg instrument %s not found", pMsg->InstrumentID);
 				return;
 			}
 			update_item(pMsg, afeed_item);
 			return post(afeed_item);
-		}
+		}*/
 
+		void cffex_source::process_msg(feed_item** pMsg)
+		{
+			feed_item *it = *pMsg;
+			post(it);
+		}
 	
 		void cffex_source::process()
 		{
