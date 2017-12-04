@@ -1,6 +1,8 @@
 #include "xele_source.h"
 #include "nn.h"
 #include "pubsub.h"
+#include "atsconfig.h"
+
 namespace feed
 {
 	namespace xele
@@ -83,9 +85,15 @@ namespace feed
 					if (afeed_item != nullptr)
 					{
 						ptr->load_feed((CXeleShfeMarketDataUnion *)&mdtick, afeed_item);
-						if (ptr->get_strPub() != "pub")
-							//ptr->get_queue()->CopyPush((CXeleShfeMarketDataUnion *)&mdtick);
+						//if (ptr->get_strPub() != "pub")
+#ifdef __linux__
+						if (ptr->is_feed_engine_bind_cpu)
+							ptr->m_sqsc_queue.push(afeed_item);
+						else
 							ptr->get_queue()->CopyPush(&afeed_item);
+#else
+						ptr->get_queue()->CopyPush(&afeed_item);
+#endif
 					}
 				}
 			}
@@ -103,7 +111,7 @@ namespace feed
 			m_strPasswd = Passwd;
 
 			m_core = mcore;
-			m_pConnection = new xele_connection();	
+			m_pConnection = new xele_connection();
 		}
 
 		xele_source::~xele_source()
@@ -116,7 +124,18 @@ namespace feed
 			feed_source::init_source();
 			get_queue()->setHandler(boost::bind(&xele_source::process_msg, this,_1));			
 #ifdef Linux
-			init_epoll_eventfd();
+			int feed_core = terra::ats::ats_config::get_instance()->get_feed_io_cpu_core();
+			if (feed_core > 0)
+			{
+				is_feed_engine_bind_cpu = true;
+				io_service_gh::get_instance().add_feed_update_handler(std::bind(&xele_source::process_sqsc_msg, this));
+			}
+			else
+			{
+				is_feed_engine_bind_cpu = false;
+				init_epoll_eventfd();
+			}
+			
 #else
 			init_process(io_service_type::feed);
 #endif
@@ -216,32 +235,14 @@ namespace feed
 			}
 		}
 
-		/*
-		void xele_source::process_msg(CXeleShfeMarketDataUnion* pMsg)
-		{			
-			std::string  sFeedCode;
-			if (pMsg->md_type[0] == 'M')
+		void xele_source::process_sqsc_msg()
+		{
+			feed_item *it;
+			while (m_sqsc_queue.try_pop(it))
 			{
-				sFeedCode = pMsg->type_high.Instrument;
+				post(it);
 			}
-			else if (pMsg->md_type[0] == 'S')
-			{
-				sFeedCode = pMsg->type_low.Instrument;
-			}
-			else if (pMsg->md_type[0] == 'Q')
-			{
-				sFeedCode = pMsg->type_depth.Instrument;
-			}
-			feed_item* afeed_item = get_feed_item(sFeedCode);
-			if (afeed_item == NULL)
-			{
-				return;
-			}
-
-			process_msg(pMsg, afeed_item);
-			return post(afeed_item);
 		}
-		*/
 
 		void xele_source::process_msg(feed_item** pMsg)
 		{
@@ -278,20 +279,6 @@ namespace feed
 			if (pMsg->type_high.Turnover > 0)
 				feed_item->set_turnover(pMsg->type_high.Turnover);
 		}
-
-		/*bool xele_source::subscribe(feed_item * feed_item)
-		{
-			if (feed_item == nullptr || get_status() == AtsType::FeedSourceStatus::Down)
-			{
-				loggerv2::error("subscribe feed fail,feed_itme invailable,or feedsourceStatus:%s is %d", Name.c_str(), get_status());
-				return false;
-			}
-			if (feed_item->is_subsribed() == true)
-				return true;
-			add_feed_item(feed_item);
-			feed_item->subscribe();
-			return true;
-		}*/	
 
 		void FeedXeleSpi::OnFrontDisconnected(int nReason)
 		{

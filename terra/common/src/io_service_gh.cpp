@@ -1,12 +1,38 @@
 #include "io_service_gh.h"
-//#include "atsconfig.h"
+#include "atsconfig.h"
 
 
 namespace terra
 {
 	namespace common
 	{
-#ifdef Linux
+#ifdef __linux__
+
+		void bind_cpu_core(int core)
+		{
+			cpu_set_t mask;
+			cpu_set_t get;
+			CPU_ZERO(&mask);
+			CPU_SET(core, &mask);
+			int num = sysconf(_SC_NPROCESSORS_CONF);
+			if (pthread_setaffinity_np(pthread_self(), sizeof(mask), &mask) < 0) //设置亲和性
+			{
+				fprintf(stderr, "set thread affinity failed\n");
+			}
+			CPU_ZERO(&get);
+			if (pthread_getaffinity_np(pthread_self(), sizeof(get), &get) < 0)
+			{
+				fprintf(stderr, "get thread affinity failed\n");
+
+			}
+			for (int j = 0; j < num; j++)
+			{
+				if (CPU_ISSET(j, &get))
+				{
+					printf("thread %d is running in processor %d\n", (int)pthread_self(), j);
+				}
+			}
+		}
 
 		void* FeedThreadProc(void *pvArgs)
 		{
@@ -56,8 +82,8 @@ namespace terra
 
 		void io_service_gh::start_feed_io(int _feed_io_cpu_core)
 		{
+#ifdef __linux__
 			feed_io_cpu_core=_feed_io_cpu_core;
-#ifdef Linux
 			pthread_create(&feed_id, NULL, FeedThreadProc, (void *)this);
 			pthread_detach(feed_id);
 #else
@@ -71,8 +97,9 @@ namespace terra
 
 		void io_service_gh::start_trader_io(int _trader_io_cpu_core)
 		{
+			
+#ifdef __linux__
 			trader_io_cpu_core=_trader_io_cpu_core;
-#ifdef Linux
 			if(m_is_bind_feed_trader_core)
 			{
 				printf("trader io should stop when m_is_bind_feed_trader_core is true\n");
@@ -91,11 +118,11 @@ namespace terra
 
 		void io_service_gh::start_other_io(int _other_io_cpu_core)
 		{
-			other_io_cpu_core = _other_io_cpu_core;
 			boost_write_lock lk(rw_mutex);
 			if (is_ats_running == false)
 			{
-#ifdef Linux
+#ifdef __linux__
+				other_io_cpu_core = _other_io_cpu_core;
 				if(m_is_set_other_thread)
 					return;
 				pthread_create(&other_id, NULL, OtherThreadProc, (void *)this);
@@ -110,44 +137,37 @@ namespace terra
 #endif
 			}
 		}
-
+		
 		void io_service_gh::init_other_io(int thread_num)
 		{
 			if (thread_num < 1 || thread_num>8)
 				thread_num = 1;
 			other_io = new boost::asio::io_service(thread_num);
 		}
+		
+		boost::asio::io_service *io_service_gh::get_io_service(io_service_type _type)
+		{
+			switch (_type)
+			{
+			case io_service_type::feed:
+				return &feed_io;
+			case io_service_type::trader:
+				return &trader_io;
+			case io_service_type::other:
+			default:
+				return other_io;
+			}
+		}
 
 		void io_service_gh::set_feed_io_thread()
 		{
-#ifdef Linux
-			//int feed_io_cpu_core = ats_config::get_instance()->get_feed_io_cpu_core();
+#ifdef __linux__
+			
 			int epoll_time_t;
 			if(feed_io_cpu_core>0)
 			{
 				epoll_time_t =0;
-				cpu_set_t mask;
-				cpu_set_t get;
-				CPU_ZERO(&mask);
-				CPU_SET(feed_io_cpu_core, &mask);
-				int num = sysconf(_SC_NPROCESSORS_CONF);
-				if (pthread_setaffinity_np(pthread_self(), sizeof(mask), &mask) < 0) //设置亲和性
-				{
-					fprintf(stderr, "set thread affinity failed\n");
-				}
-				CPU_ZERO(&get);
-				if (pthread_getaffinity_np(pthread_self(), sizeof(get), &get) < 0)
-				{
-					fprintf(stderr, "get thread affinity failed\n");
-
-				}
-				for (int j = 0; j < num; j++)
-				{
-					if (CPU_ISSET(j, &get))
-					{
-						printf("thread %d is running in processor %d\n", (int)pthread_self(), j);
-					}
-				}
+				bind_cpu_core(feed_io_cpu_core);
 			}
 			else
 			{
@@ -176,7 +196,7 @@ namespace terra
 				}
 			}
 
-			epoll_proc(efd_feed, epoll_time_t,true);
+			epoll_proc(efd_feed, epoll_time_t,io_service_type::feed);
 #else
 			cout << "start feed_io" << endl;
 			feed_io.run();
@@ -185,34 +205,14 @@ namespace terra
 
 		void io_service_gh::set_trader_io_thread()
 		{
-#ifdef Linux
+#ifdef __linux__
 			//int trader_io_cpu_core = ats_config::get_instance()->get_trader_io_cpu_core();
 			int epoll_time_t;
 			if(trader_io_cpu_core>0)
 			{
 				epoll_time_t = 0;
-				cpu_set_t mask;
-				cpu_set_t get;
-				CPU_ZERO(&mask);
-				CPU_SET(trader_io_cpu_core, &mask);
-				int num = sysconf(_SC_NPROCESSORS_CONF);
-				if (pthread_setaffinity_np(pthread_self(), sizeof(mask), &mask) < 0) //设置亲和性
-				{
-					fprintf(stderr, "set thread affinity failed\n");
-				}
-				CPU_ZERO(&get);
-				if (pthread_getaffinity_np(pthread_self(), sizeof(get), &get) < 0)
-				{
-					fprintf(stderr, "get thread affinity failed\n");
-
-				}
-				for (int j = 0; j < num; j++)
-				{
-					if (CPU_ISSET(j, &get))
-					{
-						printf("thread %d is running in processor %d\n", (int)pthread_self(), j);
-					}
-				}
+				
+				bind_cpu_core(trader_io_cpu_core);
 			}
 			else
 			{
@@ -241,7 +241,7 @@ namespace terra
 				}
 			}
 
-			epoll_proc(efd_trader, epoll_time_t);
+			epoll_proc(efd_trader, epoll_time_t,io_service_type::trader);
 #else
 			cout << "start trader_io" << endl;
 			trader_io.run();
@@ -250,32 +250,11 @@ namespace terra
 
 		void io_service_gh::set_other_io_thread()
 		{
-#ifdef Linux
-			//int other_io_cpu_core = ats_config::get_instance()->get_other_io_cpu_core();
+#ifdef __linux__
+			
 			if(other_io_cpu_core>0)
 			{
-				cpu_set_t mask;
-				cpu_set_t get;
-				CPU_ZERO(&mask);
-				CPU_SET(other_io_cpu_core, &mask);
-				int num = sysconf(_SC_NPROCESSORS_CONF);
-				if (pthread_setaffinity_np(pthread_self(), sizeof(mask), &mask) < 0) //设置亲和性
-				{
-					fprintf(stderr, "set thread affinity failed\n");
-				}
-				CPU_ZERO(&get);
-				if (pthread_getaffinity_np(pthread_self(), sizeof(get), &get) < 0)
-				{
-					fprintf(stderr, "get thread affinity failed\n");
-
-				}
-				for (int j = 0; j < num; j++)
-				{
-					if (CPU_ISSET(j, &get))
-					{
-						printf("thread %d is running in processor %d\n", (int)pthread_self(), j);
-					}
-				}
+				bind_cpu_core(other_io_cpu_core);
 			}
 			else
 			{
@@ -301,43 +280,52 @@ namespace terra
 					printf("other epoll ctl fail,exit");
 					exit(1);
 				}
-				//cout<<"set fd "<<it<<" to other_epoll_fd"<<endl;
 			}
 			is_ats_running = true;
-			epoll_proc(efd_other, 1);
-			return;
-#endif
+			epoll_proc(efd_other, 1, io_service_type::other);
+			//return;
+#else
 
-//#else
 			cout << "start other_io" << endl;
 			if (is_ats_running == false)
 			{
 				is_ats_running = true;
 				other_io->run();
 			}
-//#endif
-		}
-		
-		boost::asio::io_service *io_service_gh::get_io_service(io_service_type _type)
-		{
-			switch (_type)
-			{
-			case io_service_type::feed:
-				return &feed_io;
-			case io_service_type::trader:
-				return &trader_io;
-			case io_service_type::other:
-			default:
-				return other_io;
-			}
+#endif
 		}
 
-#ifdef Linux
-		void io_service_gh::epoll_proc(int efd,int timeout,bool is_feed)
+
+#ifdef __linux__
+		void io_service_gh::epoll_proc(int efd,int timeout,io_service_type _type)
 		{
 			struct epoll_event *events = new epoll_event[MaxEPOLLSize];
 			while (1)
 			{
+				if (0==timeout)
+				{
+					if(_type==io_service_type::feed)
+					{
+						for (auto &it : feed_update_list)
+							it();
+
+						if(m_is_bind_feed_trader_core)
+						{
+							for (auto &it : trader_update_list)
+								it();
+						}
+					}
+					else if(_type==io_service_type::trader)
+					{
+						if(!m_is_bind_feed_trader_core)
+						{
+							for (auto &it : trader_update_list)
+								it();
+						}
+					}
+					continue;
+				}
+
 				int n = epoll_wait(efd, events, MaxEPOLLSize, timeout);
 				for (int i = 0; i<n; ++i)
 				{
@@ -375,7 +363,7 @@ namespace terra
 								}
 							}
 						}
-						//cout<<"fd:"<<fd<<" call fun"<<endl;
+
 						auto it = ProcMap.find(fd);
 						if(it!=ProcMap.end())
 						{
@@ -389,15 +377,11 @@ namespace terra
 
 				}
 
-				if (is_feed)
-				{
-					for (auto &it : nanomsg_rcv_list)
-						it();
-				}
+				
 			}
 		}
 
-		void io_service_gh::add_fd_fun_map(io_service_type _type, int fd, epoll_handler handler)
+		void io_service_gh::add_fd_fun_map(io_service_type _type, int fd, feed_trader_handler handler)
 		{
 			ProcMap.emplace(fd, handler);
 			struct epoll_event epe;
@@ -413,7 +397,7 @@ namespace terra
 					feed_fdlist.push_back(fd);
 				break;
 			case io_service_type::trader:
-				if(m_is_bind_feed_trader_core==false)
+				if(terra::ats::ats_config::get_instance()->get_is_bind_feed_trader_core()==false)
 				{
 					if(efd_trader>0)
 						res = epoll_ctl(efd_trader, EPOLL_CTL_ADD, fd, &epe);
@@ -446,9 +430,14 @@ namespace terra
 		}
 
 
-		void io_service_gh::add_nanomsg_rcv_handler(epoll_handler handler)
+		void io_service_gh::add_feed_update_handler(feed_trader_handler handler)
 		{
-			nanomsg_rcv_list.push_back(handler);
+			feed_update_list.push_back(handler);
+		}
+
+		void io_service_gh::add_trader_update_handler(feed_trader_handler handler)
+		{
+			trader_update_list.push_back(handler);
 		}
 #endif
 	}

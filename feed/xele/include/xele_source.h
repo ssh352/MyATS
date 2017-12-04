@@ -9,7 +9,6 @@ namespace feed
 {
 	namespace xele
 	{
-		//typedef terra::common::lockfree_classpool_workqueue<CXeleShfeMarketDataUnion> outbound_queue;
 		typedef terra::common::lockfree_classpool_workqueue<feed_item*> outbound_queue;
 		class xele_source;
 		class FeedXeleSpi : public CXeleMdSpi
@@ -52,16 +51,20 @@ namespace feed
 			public:
 				virtual void init_source();
 				void release_source() override;
-				//void process_msg(CXeleShfeMarketDataUnion* pMsg);
 				void process_msg(feed_item** pMsg);
 				inline outbound_queue* get_queue() { return &m_queue; }
 
 				bool Connect_and_Login();
 				void start_receiver();
 				int get_code(){ return m_core; }
+				void load_feed(CXeleShfeMarketDataUnion* pMsg, feed_item * feed_item);
+
 				FeedXeleSpi m_Spi;
 				CXeleMdApi* m_Api = nullptr;
-				void load_feed(CXeleShfeMarketDataUnion* pMsg, feed_item * feed_item);
+				
+				bool is_feed_engine_bind_cpu;
+				void process_sqsc_msg();
+				tbb::concurrent_queue<feed_item *> m_sqsc_queue;
 
 			protected:
 				void process() override;
@@ -76,8 +79,9 @@ namespace feed
 
 #ifdef Linux
 				int efd;
-				void  init_epoll_eventfd();
 				pthread_t xele_id;
+				void  init_epoll_eventfd();
+				
 #endif
 		};
 	}

@@ -52,7 +52,7 @@ namespace terra
 				if (strConfigFile.length() < 1)
 					return false;
 				this->m_strConfigFile = strConfigFile;
-
+				std::cout<<strConfigFile<<std::endl;
 				boost::filesystem::path p(strConfigFile);
 				if (!boost::filesystem::exists(p))
 				{
@@ -213,7 +213,7 @@ namespace terra
 				//m_work_flow_delay = root.get<int>("PERFS.WorkFlowDelay", 100);
 
 				m_feed_io_cpu_core = root.get<int>("PERFS.feed_io_cpu_core", -1);
-				m_is_bind_feed_trader_core = root.get<int>("PERFS.is_bind_feed_trader_core", true);
+				m_is_bind_feed_trader_core = root.get<bool>("PERFS.is_bind_feed_trader_core", true);
 				if (m_is_bind_feed_trader_core)
 					m_trader_io_cpu_core = m_feed_io_cpu_core;
 				else

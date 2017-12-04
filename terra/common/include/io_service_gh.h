@@ -8,7 +8,7 @@
 #include "tbb/concurrent_unordered_map.h"
 #include "singleton.hpp"
 #include "common.h"
-#ifdef Linux
+#ifdef __linux__
 #include <pthread.h>
 #include <sys/epoll.h>
 #include <errno.h>
@@ -26,7 +26,7 @@ namespace terra
 			other
 		};
 
-		typedef std::function<void()> epoll_handler;
+		typedef std::function<void()> feed_trader_handler;
 
 		class io_service_gh :public SingletonBase<io_service_gh>
 		{
@@ -38,29 +38,36 @@ namespace terra
 			void set_feed_io_thread();
 			void set_trader_io_thread();
 			void set_other_io_thread();
-
-			void init_other_io(int thread_num = 1);
-
-			boost::asio::io_service *get_io_service(io_service_type);
-
+			
 			boost::asio::io_service feed_io;
 			boost::asio::io_service trader_io;
 			boost::asio::io_service *other_io;
+			boost::asio::io_service *get_io_service(io_service_type);
+			void init_other_io(int thread_num = 1);
 
-#ifdef Linux
-			void epoll_proc(int efd,int timeout,bool is_feed = false);
-			void add_fd_fun_map(io_service_type _type,int fd,epoll_handler);
+#ifdef __linux__
+			void epoll_proc(int efd,int timeout,io_service_type _type);
+			void add_fd_fun_map(io_service_type _type,int fd,feed_trader_handler);
 			void set_is_bind_feed_trader_core(bool b);
-			void add_nanomsg_rcv_handler(epoll_handler);
+			void add_feed_update_handler(feed_trader_handler);
+			void add_trader_update_handler(feed_trader_handler);
 
 			pthread_t feed_id;
 			pthread_t trader_id;
 			pthread_t other_id;
+
+			int feed_io_cpu_core;
+			int trader_io_cpu_core;
+			int other_io_cpu_core;
+
+			std::list<feed_trader_handler> feed_update_list;
+			std::list<feed_trader_handler> trader_update_list;
+
 			int efd_feed = -1;
 			int efd_trader = -1;
 			int efd_other = -1;
-			tbb::concurrent_unordered_map<int, epoll_handler> ProcMap;
-			std::list<epoll_handler> nanomsg_rcv_list;
+
+			tbb::concurrent_unordered_map<int, feed_trader_handler> ProcMap;
 			std::list<int>  feed_fdlist;
 			std::list<int>  trader_fdlist;
 			std::list<int>  other_fdlist;
@@ -75,10 +82,6 @@ namespace terra
 		private:
 			bool is_ats_running = false;
 			boost::shared_mutex rw_mutex;
-			int feed_io_cpu_core;
-			int trader_io_cpu_core;
-			int other_io_cpu_core;
-			
 		};
 	}
 }

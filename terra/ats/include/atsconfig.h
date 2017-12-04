@@ -1,7 +1,7 @@
 #ifndef _ATS_CONFIG_V2_H_
 #define _ATS_CONFIG_V2_H_
 #include <boost/filesystem.hpp>
-#include "feedcommon.h"
+#include "common.h"
 #pragma once
 namespace terra
 {

@@ -185,7 +185,7 @@ namespace terra
 							update_state(AtsType::FeedSourceStatus::Up, "");
 							//m_receiver_thread = std::thread(&feed_source::start_receiver, this);
 #ifdef __linux__
-							io_service_gh::get_instance().add_nanomsg_rcv_handler(std::bind(&feed_source::start_receiver, this));
+							io_service_gh::get_instance().add_feed_update_handler(std::bind(&feed_source::start_receiver, this));
 #else
 							boost::asio::high_resolution_timer* timer = new boost::asio::high_resolution_timer(*(io_service_gh::get_instance().get_io_service(io_service_type::feed)), std::chrono::milliseconds(5));
 							timer->async_wait(boost::bind(&feed_source::process_loop, this, boost::asio::placeholders::error, timer));

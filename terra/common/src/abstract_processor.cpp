@@ -17,19 +17,19 @@ namespace terra
 
 		void abstract_processor::init_process(io_service_type _type, int micro, int poll_num)
 		{
+#ifndef __linux__		
 			is_alive(true);
-			//std::thread t(std::bind(&abstract_processor::set_kernel_timer_thread, this));
-			//m_thread.swap(t);
-			//set_kernel_timer();
+			
 			timer = new boost::asio::high_resolution_timer(*(io_service_gh::get_instance().get_io_service(_type)), std::chrono::milliseconds(5));
 			timer->async_wait(boost::bind(&abstract_processor::process_loop, this, boost::asio::placeholders::error, timer));
 			m_pollnum = poll_num;
 			interval = std::chrono::microseconds(micro);
+#endif
 		}
 
 
 #ifdef Linux
-		void abstract_processor::add_fd_fun_to_io_service(io_service_type _type, int fd, epoll_handler handler)
+		void abstract_processor::add_fd_fun_to_io_service(io_service_type _type, int fd, feed_trader_handler handler)
 		{
 			io_service_gh::get_instance().add_fd_fun_map(_type, fd, handler);
 		}

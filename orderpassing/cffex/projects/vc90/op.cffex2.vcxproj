@@ -52,7 +52,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\marketaccess\include;..\..\include;..\..\api\include;$(MYATSDIR)\terra\thrift_include;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\marketaccess\include;..\..\include;..\..\api\include;$(MYATSDIR)\terra\thrift_include;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;BOOST_THREAD_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -71,7 +71,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\marketaccess\include;..\..\include;..\..\api\include;$(MYATSDIR)\terra\thrift_include;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);$(MYATSDIR)\terra\common\include;$(MYATSDIR)\terra\marketaccess\include;..\..\include;..\..\api\include;$(MYATSDIR)\terra\thrift_include;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\instruments\include;$(MYATSDIR)\terra\thrift_include\thrift\src\;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;BOOST_THREAD_DYN_LINK;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>
@@ -86,9 +86,12 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\api\include\ThostFtdcTraderApi.h" />
+    <ClInclude Include="..\..\api\include\ThostFtdcUserApiDataType.h" />
+    <ClInclude Include="..\..\api\include\ThostFtdcUserApiStruct.h" />
     <ClInclude Include="..\..\include\cffex_api.h" />
-    <ClInclude Include="..\..\include\cffex_connection.h" />
-    <ClInclude Include="..\..\include\cffex_order.h" />
+    <ClInclude Include="..\..\include\cffex_order_aux.h" />
+    <ClInclude Include="..\..\include\ctp_connection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\cffex_api.cpp" />

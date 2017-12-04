@@ -14,10 +14,19 @@
     <ClInclude Include="..\..\include\cffex_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\cffex_connection.h">
+    <ClInclude Include="..\..\include\ctp_connection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\include\cffex_order.h">
+    <ClInclude Include="..\..\include\cffex_order_aux.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\api\include\ThostFtdcTraderApi.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\api\include\ThostFtdcUserApiDataType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\api\include\ThostFtdcUserApiStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

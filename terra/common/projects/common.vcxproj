@@ -55,7 +55,7 @@
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;$(MYATSDIR)\terra\zmq404\include;..\..\thrift_include\thrift\src\;..\..\thrift_include\zlib-1.2.8;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;$(MYATSDIR)\terra\zmq404\include;..\..\thrift_include\thrift\src\;..\..\thrift_include\zlib-1.2.8;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <IntrinsicFunctions>false</IntrinsicFunctions>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <BrowseInformation>true</BrowseInformation>
@@ -83,7 +83,7 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;$(WORKDIR2)\terra\zmq404\include;..\..\thrift_include\thrift\src\;..\..\thrift_include\zlib-1.2.8;$(WORKDIR2)/terra/thrift_include\thrift\src\;$(WORKDIR2)\terra\tbb\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);.\..\include;$(MYATSDIR)\terra\zmq404\include;..\..\thrift_include\thrift\src\;..\..\thrift_include\zlib-1.2.8;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>

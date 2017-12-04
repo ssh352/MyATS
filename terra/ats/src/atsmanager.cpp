@@ -111,6 +111,7 @@ namespace terra
 			io_service_gh::get_instance().start_feed_io(ats_config::get_instance()->get_feed_io_cpu_core());
 			io_service_gh::get_instance().start_trader_io(ats_config::get_instance()->get_trader_io_cpu_core());
 			io_service_gh::get_instance().init_other_io(ats_config::get_instance()->get_other_io_cpu_core());
+
 			//io_service_gh::get_instance().start_other_io();
 		}
 

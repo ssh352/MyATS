@@ -21,7 +21,7 @@ namespace terra
 			inline void is_alive(bool b) { m_isAlive = b; }
 			void stop_process();
 #ifdef Linux
-			void add_fd_fun_to_io_service(io_service_type _type, int fd, epoll_handler handler);
+			void add_fd_fun_to_io_service(io_service_type _type, int fd, feed_trader_handler handler);
 #endif
 		protected:
 			virtual void process() = 0;

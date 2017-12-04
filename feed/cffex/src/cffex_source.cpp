@@ -1,11 +1,12 @@
 
 #include "cffex_source.h"
 #include "cffex_connection.h"
-//
+#include "atsconfig.h"
 #include "nn.h"
 #include "pubsub.h"
 //
 using namespace terra::common;
+
 namespace feed
 {
 	namespace cffex
@@ -25,24 +26,26 @@ namespace feed
 
 		}
 
-		/*cffex_source::~cffex_source()
+		cffex_source::~cffex_source()
 		{
-		if (m_pConnection)
-		delete m_pConnection;
-		}*/
+			;
+		}
 		void cffex_source::init_source()
 		{
-			//
 			feed_source::init_source();
-			//
-
 			get_queue()->setHandler(std::bind(&cffex_source::process_msg, this, std::placeholders::_1));
-
-			//std::thread t(std::bind(&cffex_source::set_kernel_timer_thread, this));
-			//m_thread.swap(t);
-			//init_process(io_service_type::feed);
 #ifdef Linux
-			init_epoll_eventfd();
+			int feed_core = terra::ats::ats_config::get_instance()->get_feed_io_cpu_core();
+			if (feed_core > 0)
+			{
+				is_feed_engine_bind_cpu = true;
+				io_service_gh::get_instance().add_feed_update_handler(std::bind(&cffex_source::process_sqsc_msg, this));
+			}
+			else
+			{
+				is_feed_engine_bind_cpu = false;
+				init_epoll_eventfd();
+			}
 #else
 			init_process(io_service_type::feed);
 #endif
@@ -78,10 +81,11 @@ namespace feed
 				if (rc == sizeof(msg))
 				{
 					string sFeedCode = msg.InstrumentID;
-					feed_item* afeed_item = this->get_feed_item(sFeedCode);
+					std::string str = std::move(sFeedCode);
+					feed_item* afeed_item = this->get_feed_item(str);
 					if (afeed_item != nullptr)
 					{
-						update_item((CThostFtdcDepthMarketDataField *)&msg, afeed_item);
+						update_item(&msg,afeed_item);
 						get_queue()->CopyPush(&afeed_item);
 					}
 				}
@@ -92,26 +96,34 @@ namespace feed
 		//{
 		//	m_pConnection->cleanup();					
 		//}
-
-		/*void cffex_source::process_msg(CThostFtdcDepthMarketDataField* pMsg)
+		void cffex_source::push_feed_ptr(feed_item * afeed_item)
 		{
-			std::string sFeedCode = std::string(pMsg->InstrumentID);
-
-			feed_item* afeed_item = get_feed_item(sFeedCode);
-			if (afeed_item == NULL)
+#ifdef __linux__
+			if (is_feed_engine_bind_cpu)
+				m_sqsc_queue.push(afeed_item);
+			else
+				get_queue()->CopyPush(&afeed_item);
+#else
+			get_queue()->CopyPush(&afeed_item);
+#endif
+			
+		}
+		
+		void cffex_source::process_sqsc_msg()
+		{
+			feed_item *it;
+			while (m_sqsc_queue.try_pop(it))
 			{
-				loggerv2::error("cffex_source::process_msg instrument %s not found", pMsg->InstrumentID);
-				return;
+				post(it);
 			}
-			update_item(pMsg, afeed_item);
-			return post(afeed_item);
-		}*/
-
+		}
+		
 		void cffex_source::process_msg(feed_item** pMsg)
 		{
 			feed_item *it = *pMsg;
 			post(it);
 		}
+
 	
 		void cffex_source::process()
 		{

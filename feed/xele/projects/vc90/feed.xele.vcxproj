@@ -60,7 +60,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_DEBUG;_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS;BOOST_SYSTEM_NO_DEPRECATED;BOOST_LIB_DIAGNOSTIC</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -85,7 +85,7 @@
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
-      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(BOOST_INC);..\..\api\include;..\..\include;..\..\..\..\terra\feedcommon\include;..\..\..\..\terra\common\include;$(MYATSDIR)/terra/thrift_include\thrift\src\;$(MYATSDIR)\terra\tbb\include;$(MYATSDIR)\terra\nanomsg-1.0.0\src;$(MYATSDIR)\terra\ats\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_AFXDLL;FD_SETSIZE=1024;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <BufferSecurityCheck>false</BufferSecurityCheck>

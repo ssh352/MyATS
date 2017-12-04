@@ -223,23 +223,26 @@ namespace feed
 
 		void cffex_connection::OnRtnDepthMarketData(CThostFtdcDepthMarketDataField* pDepthMarketData)
 		{
-			//
 			if (strcmp(pDepthMarketData->InstrumentID, "rb1801") == 0)
 			{
 				std::chrono::time_point<std::chrono::high_resolution_clock> tp = std::chrono::high_resolution_clock::now();
 				long long timep = std::chrono::time_point_cast<lwdur>(tp).time_since_epoch().count();
-				BOOST_LOG_TRIVIAL(info) << "ctp rb1801:" << pDepthMarketData->Turnover << " tp:" << timep;
+				BOOST_LOG_TRIVIAL(info) << "ctp rb1801:" << pDepthMarketData->Volume << " tp:" << timep;
 			}
-
+			//
 			//m_pSource->publish_msg((void*)pDepthMarketData, sizeof(CThostFtdcDepthMarketDataField), pDepthMarketData->InstrumentID);
+			//
+			
 			//if (m_pSource->get_strPub() != "pub")
-			std::string str = std::string(pDepthMarketData->InstrumentID);
+				//m_pSource->get_queue()->CopyPush(pDepthMarketData);
+			std::string str = (pDepthMarketData->InstrumentID);
 			feed_item* afeed_item = m_pSource->get_feed_item(str);
 			if (afeed_item != nullptr)
 			{
-				m_pSource->update_item(pDepthMarketData, afeed_item);
-				m_pSource->get_queue()->CopyPush(&afeed_item);
+				m_pSource->update_item(pDepthMarketData,afeed_item);
+				m_pSource->push_feed_ptr(afeed_item);
 			}
+			
 		}
 
 		void cffex_connection::OnRtnForQuoteRsp(CThostFtdcForQuoteRspField *pForQuoteRsp)
