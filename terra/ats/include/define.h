@@ -16,10 +16,10 @@
 //
 //#ifndef Linux
 // #define FEED_XSL2
-// #define FEED_XS
+ #define FEED_XS
 //#endif
 //
-#define FEED_XS2
+//#define FEED_XS2
 //#define FEED_XELE
 //#define FEED_ZD
 //
@@ -35,8 +35,8 @@
 //#define CON_SL
 //#define CON_X1
 //#ifndef Linux
-// #define CON_XS
-#define CON_XS2
+ #define CON_XS
+//#define CON_XS2
 //#endif
 //
 //#define CON_ZD
