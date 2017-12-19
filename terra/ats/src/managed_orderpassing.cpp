@@ -51,10 +51,13 @@
 #endif
 #ifdef CON_GX
 #include "gx/include/gx_connection.h"
+#endif
 #ifdef CON_GXFILE
 #include "gx_file/include/gx_file_connection.h"
+#endif
 #ifdef CON_LTSFILE
 #include "ht_file/include/ht_file_connection.h"
+#endif
 #ifdef CON_FS
 #include "sf/include/sf_connection.h"
 #endif
@@ -133,7 +136,7 @@ namespace terra
 			//std::stringstream ss;
 			std::string m_path, session;
 
-			bool read_res=read_path(m_path, session);
+			bool read_res = read_path(m_path, session);
 			bool is_night_session = todayDir.size() > 0 && todayDir.at(todayDir.size() - 1) == 'N';
 
 			if (is_night_session)//夜盘是新一个交易日的开始
@@ -169,7 +172,7 @@ namespace terra
 					}
 					write_path(todayDir, 'D');
 				}
-				
+
 			}
 
 
@@ -274,16 +277,16 @@ namespace terra
 				{
 #ifdef CON_X1
 #ifdef Linux
-					con = new x1::x1_connection(todayDir,false);
+					con = new x1::x1_connection(todayDir, false);
 #endif
 #endif
-			}
+				}
 				else if (type == "IB")
 				{
 #ifdef CON_IB
-//#ifndef Linux
+					//#ifndef Linux
 					con = new ib::ib_connection(false);
-//#endif
+					//#endif
 #endif	
 				}
 				else if (type == "FS")
@@ -376,13 +379,13 @@ namespace terra
 					loggerv2::error("Connection %s Not Initialized!", name.c_str());
 				}
 
-		}
+			}
 
 			std::thread td(std::bind(&managed_orderpassing::Process, this));
 			m_Thread.swap(td);
 			return nbSources;
 
-	}
+		}
 
 		void managed_orderpassing::Terminate()
 		{
@@ -570,5 +573,5 @@ namespace terra
 		}
 
 		order_observer_CB* order_observer_CB::ms_pInstance;
-}
+	}
 }
