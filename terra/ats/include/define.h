@@ -16,7 +16,7 @@
 //
 //#ifndef Linux
 // #define FEED_XSL2
- #define FEED_XS
+//#define FEED_XS
 //#endif
 //
 //#define FEED_XS2
@@ -29,13 +29,14 @@
 //#define CON_FEMAS
 //#define CON_FS
 //#define CON_GX
+//#define CON_GXFILE
 //#define CON_IB
 //#define CON_LTS
 //#define CON_LTSFILE
 //#define CON_SL
 //#define CON_X1
 //#ifndef Linux
- #define CON_XS
+//#define CON_XS
 //#define CON_XS2
 //#endif
 //

@@ -1,46 +1,65 @@
-#ifndef Linux
-#include "lts_file/include/lts_file_connection.h"
-//#include "ib/include/ib_connection.h"
-#include "gx/include/gx_connection.h"
-#include "gx_file/include/gx_file_connection.h"
-
-#include "ht_file/include/ht_file_connection.h"
-#endif
 #include "managed_orderpassing.h"
-
-#include "cffex/include/ctp_connection.h"
-#include "lts/include/lts_connection.h"
-
-#include "xspeed/include/xs_connection.h"
-#include "xspeed_of/include/xs_of_connection.h"
+#include "define.h"
+#include <exec_book_notifier.h>
+#include <order_book_notifier.h>
+#include <conn_status_change_notifier.h>
+#include "boost/property_tree/ini_parser.hpp"
 #include "tradeItem_gh.h"
 #include "order_gh.h"
-
 #include "order_reference_provider.h"
 #include "exec_persister.h"
 #include "connection_gh.h"
 #include "order.h"
 #include <boost/lexical_cast.hpp>
 
-#include "fs/include/fs_connection.h"
-#include <exec_book_notifier.h>
-#include <order_book_notifier.h>
-#include <conn_status_change_notifier.h>
-#include "boost/property_tree/ini_parser.hpp"
-
-#include "sl/include/sl_connection.h"
-#include "x1/include/x1_connection.h"
-
-#include "es/include/es_connection.h"
-#include "define.h"
-
-#include "femas/include/femas_connection.h"
-#ifndef Linux
-#include "sf/include/sf_connection.h"
-//#include "zd/include/zd_connection.h"
+#ifdef CON_CTP
+#include "cffex/include/ctp_connection.h"
 #endif
+#ifdef CON_LTS
+#include "lts/include/lts_connection.h"
+#endif
+#ifdef CON_XS
+#include "xspeed/include/xs_connection.h"
+#endif
+#ifdef CON_XS2
+#include "xspeed_of/include/xs_of_connection.h"
+#endif
+#ifdef CON_FS
+#include "fs/include/fs_connection.h"
+#endif
+#ifdef CON_SL
+#include "sl/include/sl_connection.h"
+#endif
+#ifdef CON_X1
+#include "x1/include/x1_connection.h"
+#endif
+#ifdef CON_ES
+#include "es/include/es_connection.h"
+#endif
+#ifdef CON_FEMAS
+#include "femas/include/femas_connection.h"
+#endif
+#ifdef CON_IB
 #include "ib/include/ib_connection.h"
+#endif
+#ifdef CON_ZD
 #include "zd/include/zd_connection.h"
+#endif
+#ifndef Linux
+#ifdef CON_LTSFILE
+#include "lts_file/include/lts_file_connection.h"
+#endif
+#ifdef CON_GX
+#include "gx/include/gx_connection.h"
+#ifdef CON_GXFILE
+#include "gx_file/include/gx_file_connection.h"
+#ifdef CON_LTSFILE
+#include "ht_file/include/ht_file_connection.h"
+#ifdef CON_FS
+#include "sf/include/sf_connection.h"
+#endif
+#endif
+
 using namespace terra::marketaccess::orderpassing;
 
 namespace terra

@@ -2,36 +2,66 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include "feedsourcefactory.h"
-#include "lts_source.h"
-#include "ltsl2_source.h"
-#include "cffex_source.h"
-#include "femas_source.h"
-#include "xs_source.h"
-#include "xs2_source.h"
-#include "ltsudp_source.h"
-#include "ltscffexudp_source.h"
-
-#include "xele_source.h"
+#include "define.h"
 #include <boost/algorithm/string.hpp>
 
-#ifndef Linux
-//#include "ib_source.h"
-#else
+#ifdef FEED_LTS
+#include "lts_source.h"
+#endif
+#ifdef FEED_LTSL2
+#include "ltsl2_source.h"
+#endif
+#ifdef FEED_CTP
+#include "cffex_source.h"
+#endif
+#ifdef FEED_FEMAS
+#include "femas_source.h"
+#endif
+#ifdef FEED_XS
+#include "xs_source.h"
+#endif
+#ifdef FEED_XS2
+#include "xs2_source.h"
+#endif
+#ifdef FEED_LTSUDP
+#include "ltsudp_source.h"
+#endif
+#ifdef FEED_LTSCFFEXUDP
+#include "ltscffexudp_source.h"
+#endif
+#ifdef FEED_XELE
+#include "xele_source.h"
+#endif
+#ifdef FEED_SL2
 #include "sl2_source.h"
 #endif
+#ifdef FEED_FS
 #include "fs_source.h"
-#include "tdf_source.h"
-#include "sl_source.h"
-#include "sl2_source.h"
-#include "es_source.h"
-#include "xsl2_source.h"
-#include "define.h"
-#ifndef Linux
-#include "sf_source.h"
-//#include "zd_source.h"
 #endif
+#ifdef FEED_TDF
+#include "tdf_source.h"
+#endif
+#ifdef FEED_SL
+#include "sl_source.h"
+#endif
+#ifdef FEED_SL2
+#include "sl2_source.h"
+#endif
+#ifdef FEED_ES
+#include "es_source.h"
+#endif
+#ifdef FEED_XSL2
+#include "xsl2_source.h"
+#endif
+#ifdef FEED_FS
+#include "sf_source.h"
+#endif
+#ifdef FEED_ZD
 #include "zd_source.h"
+#endif
+#ifdef FEED_IB
 #include "ib_source.h"
+#endif
 using namespace feed;
 namespace terra
 {
