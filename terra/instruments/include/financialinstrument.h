@@ -32,7 +32,7 @@ namespace terra
 			map_ex<string, string> m_TradingCodes;
 		public:
 			double tick_up(double price, int depth = 1);
-			double tick_down(double price, int depth = 1);			
+			double tick_down(double price, int depth = 1);
 			/*
 			to_string as key in the map
 			*/
@@ -74,6 +74,7 @@ namespace terra
 			virtual void show();
 			int get_point_value();
 			void set_tick_rule(tickrule * tick){ m_tick_rule = tick; }
+			int get_point_value_self(){ return m_iPointValue; }
 		protected:
 			std::string        m_strCode;
 			instrumentclass  * m_pRefClass;
