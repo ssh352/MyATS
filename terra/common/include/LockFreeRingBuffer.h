@@ -9,25 +9,16 @@
 #include "windows.h"
 #define CAS(des, old_v, new_v) _InterlockedCompareExchange((long *)des,new_v, old_v) == old_v
 #endif
-
+using namespace std;
 template<typename T>
 class LockFreeRingBuffer
 {
 public:
 	void init(int len);
-	void push(T &data);
-	bool pop(T &data);
+	void push(T &data,bool is_single_p=false);
+	bool pop(T &data,bool is_single_c=false);
 
 public:
-	/*
-	* Note: this field kept the RTE_MEMZONE_NAMESIZE size due to ABI
-	* compatibility requirements, it could be changed to RTE_RING_NAMESIZE
-	* next time the ABI changes
-	*/
-	char name[128];    /**< Name of the ring. */
-	//int flags;                       /**< Flags supplied at creation. */
-	/**< Memzone, if any, containing the rte_ring */
-
 	/** Ring producer status. */
 	struct prod
 	{
@@ -58,7 +49,7 @@ void LockFreeRingBuffer<T>::init(int len)
 }
 
 template<typename T>
-void LockFreeRingBuffer<T>::push(T &data)
+void LockFreeRingBuffer<T>::push(T &data,bool is_single_p)
 {
 	uint32_t prod_head, prod_next;
 	//uint32_t cons_tail, free_entries;
@@ -68,6 +59,12 @@ void LockFreeRingBuffer<T>::push(T &data)
 		prod_head = prod.head;
 
 		prod_next = (prod_head + 1) % size;
+
+		if(is_single_p)
+		{
+		   prod.head = prod_next;
+		   break;
+		}
 		//success = std::atomic_compare_exchange_weak(&(prod.head), prod_head, prod_next);
 		success = CAS(&(prod.head), prod_head, prod_next);
 	} while (success == false);
@@ -77,23 +74,26 @@ void LockFreeRingBuffer<T>::push(T &data)
 	* If there are other enqueues in progress that preceded us,
 	* we need to wait for them to complete
 	*/
-	while (prod.tail != prod_head)
-		;
-	prod.tail = prod_next;
-
+	if(!is_single_p)
+	{
+		while (prod.tail != prod_head)
+			;
+	}
+	this->prod.tail = prod_next;
 }
 
 template<typename T>
-bool LockFreeRingBuffer<T>::pop(T &data)
+bool LockFreeRingBuffer<T>::pop(T &data,bool is_single_c)
 {
+	
 	uint32_t cons_head, prod_tail;
 	uint32_t cons_next, entries;
 	bool success = false;
 	do
 	{
-		cons_head = cons.head;
-		prod_tail = prod.tail;
-
+		cons_head = this->cons.head;
+		prod_tail = this->prod.tail;
+		
 		entries = (prod_tail - cons_head);
 
 		/* Set the actual entries for dequeue */
@@ -103,15 +103,22 @@ bool LockFreeRingBuffer<T>::pop(T &data)
 		}
 
 		cons_next = (cons_head + 1) % size;
+		if(is_single_c)
+		{
+			cons.head = cons_next;
+			break;
+		}
 		//success = std::atomic_compare_exchange_weak(&(cons.head), &(cons_head), cons_next);
 		success = CAS(&(cons.head), cons_head, cons_next);
 	} while (success == false);
 
 	data = ring[cons_next];
-
-	while (cons.tail != cons_head)
-		;
-
+	
+	if(!is_single_c)
+	{
+		while (cons.tail != cons_head)
+			;
+	}
 	cons.tail = cons_next;
 	return true;
 
