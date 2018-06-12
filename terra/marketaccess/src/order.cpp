@@ -192,9 +192,17 @@ namespace terra
 
 			void order::set_status(OrderStatus::type status)
 			{
+				if(status==m_Status)
+					return;
+				if(m_preStatus==OrderStatus::Cancel||m_preStatus==OrderStatus::Exec)
+					return;
+				
 				m_preStatus = m_Status;
 				m_Status = status;
 				update_bindingquote_status();
+				
+				if(m_Status!=OrderStatus::WaitServer)
+					on_update_order();
 			}
 
 			void order::update_bindingquote_status()
